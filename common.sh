@@ -59,5 +59,6 @@ alias hgrep='history | grep'
 alias dux='du -ks ./* | sort -nr'
 alias dc='docker-compose'
 
+
 # directory tree - http://www.shell-fu.org/lister.php?id=209  
 alias dtree='find . -type d | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"'  

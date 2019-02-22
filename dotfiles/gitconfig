@@ -1,0 +1,71 @@
+[alias]
+    co = checkout
+    ci = commit
+    cia = commit -a
+    ciam = commit -a -m
+    st = status
+    br = branch
+    pushf = push --force-with-lease
+    ls = log --abbrev-commit --graph --decorate --pretty=oneline
+    ll = log --abbrev-commit --graph --color --pretty=format:'%C(red)%h%Creset -%C(yellow)%d%Creset %s %C(green)(%cr) %C(bold magenta)<%an>%Creset'
+    type = cat-file -t
+    dump = cat-file -p
+    pullf = pull --ff-only
+    pullr = pull --rebase=true
+    alias = config --get-regexp alias
+    pushup = push -u origin
+    discard = checkout --
+    refresh = remote update origin --prune
+[color]
+    ui = true
+[color "branch"]
+    current = green bold
+    local = yellow bold
+    remote = magenta
+[color "diff"]
+    meta = yellow bold
+    frag = magenta bold
+    old = white red bold
+    new = white green bold
+    whitespace = white reverse
+[color "status"]
+    added = green bold
+    changed = yellow bold
+    untracked = cyan bold
+    branch = magenta bold
+    unmerged = red yellow bold
+[commit]
+    template = /Users/dkrauth/.stCommitMsg
+[core]
+    autocrlf = input
+    excludesfile = /Users/dkrauth/.gitignore_global
+[credential]
+    helper = store
+[diff]
+    tool = Kaleidoscope
+[difftool]
+    prompt = false
+[difftool "Kaleidoscope"]
+    cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[merge]
+    keepBackup = false;
+    tool = Kaleidoscope
+[mergetool]
+    prompt = false
+[mergetool "Kaleidoscope"]
+    cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
+    trustexitcode = true
+[mergetool "sourcetree"]
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[push]
+    # Push current branch (and ONLY current branch) even if you've never pushed it before.
+    default = current
+[rebase]
+    autosquash = true
+[user]
+    name = David Krauth
+    email = dkrauth@theatlantic.com
