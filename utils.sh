@@ -1,5 +1,6 @@
 function ssh_forward() {
     ssh -N $1 -L 8778:127.0.0.1:3306
+}
 
 function mcd() { 
     mkdir -p "$@" && cd "${1}" 
