@@ -23,40 +23,40 @@ Colors
 
 The color designators are as follows:
 
-* a black
-* b red
-* c green
-* d brown
-* e blue
-* f magenta
-* g cyan
-* h light grey
-* A bold black/dark grey
-* B bold red
-* C bold green
-* D bold brown/yellow
-* E bold blue
-* F bold magenta
-* G bold cyan
-* H bold light grey / bright white
-* x default fg or bg
+* `a` black
+* `b` red
+* `c` green
+* `d` brown
+* `e` blue
+* `f` magenta
+* `g` cyan
+* `h` light grey
+* `A` bold black/dark grey
+* `B` bold red
+* `C` bold green
+* `D` bold brown/yellow
+* `E` bold blue
+* `F` bold magenta
+* `G` bold cyan
+* `H` bold light grey / bright white
+* `x` default fg or bg
 
 Note that the above are standard ANSI colors. The actual display may differ depending on the color
 capabilities of the terminal in use.
 
 The order of the attributes are as follows:
 
-* 1.  directory
-* 2.  symbolic link
-* 3.  socket
-* 4.  pipe
-* 5.  executable
-* 6.  block special
-* 7.  character special
-* 8.  executable with setuid bit set
-* 9.  executable with setgid bit set
-* 10. directory writable to others, with sticky bit
-* 11. directory writable to others, without sticky bit
+1.  directory
+2.  symbolic link
+3.  socket
+4.  pipe
+5.  executable
+6.  block special
+7.  character special
+8.  executable with setuid bit set
+9.  executable with setgid bit set
+10. directory writable to others, with sticky bit
+11. directory writable to others, without sticky bit
 
 `\[{attr};{fg};{bg}m`
 
