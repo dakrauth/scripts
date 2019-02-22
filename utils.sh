@@ -18,25 +18,6 @@ function calc() {
     echo "${1}"|bc -l 
 }
 
-function del() {
-    local path
-    for path in "$@"; do
-        # ignore any arguments
-        if [[ "$path" = -* ]]; then :
-        else
-            local orig=${path##*/}
-            local dst=$orig
-            local ver=0
-            # append the time if necessary
-            while [ -e ~/.Trash/"$dst" ]; do
-                dst="$dst ("$((ver))")"
-                ver=$((ver + 1))
-            done
-            mv "$path" ~/.Trash/"$dst"
-        fi
-    done
-}
-
 function md() {
     local fname
     for fname in "$@"; do
@@ -80,12 +61,6 @@ function google() {
     query=$(python -c "import sys; print('+'.join(sys.argv[1:]))" "$@")
     echo "http://www.google.com/search?q=${query}"
     open "http://www.google.com/search?q=${query}"
-}
-
-function vts2iso() {
-    discname=`basename "${1%.*}"`
-    echo "$discname"
-    hdiutil makehybrid -udf -udf-volume-name "$discname" -o "$discname".iso "$1"
 }
 
 function whatport() {
