@@ -1,6 +1,14 @@
 #!/bin/bash
 #set -e
 
+function whatvenv() {
+    if [ $VIRTUAL_ENV ]; then
+        echo VIRTUAL_ENV = $VIRTUAL_ENV
+    else
+        echo VIRTUAL_ENV Not Set
+    fi
+}
+
 function wherevenv() {
     local where="$1"
     if [[ ${where} =~ "/" ]]; then
@@ -88,4 +96,5 @@ alias vw.ls='lsvenv lib/python*/site-packages'
 alias vw.lss='lsvenv src'
 alias vw.lsb='lsvenv bin'
 alias vw.alias='alias | grep "^alias vw"'
+alias vw.what='whatvenv'
 

@@ -35,10 +35,10 @@
     branch = magenta bold
     unmerged = red yellow bold
 [commit]
-    template = /Users/dkrauth/.stCommitMsg
+    template = ~/.stCommitMsg
 [core]
     autocrlf = input
-    excludesfile = /Users/dkrauth/.gitignore_global
+    excludesfile = ~/.gitignore_global
 [credential]
     helper = store
 [diff]
