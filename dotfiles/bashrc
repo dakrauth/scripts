@@ -1,0 +1,26 @@
+#!/bin/bash
+echo Starting ~/.bashrc
+
+export SCRIPTS_PATH=~/scripts
+
+for script in common python vw; do
+    echo Loading $SCRIPTS_PATH/bash/${script}.sh
+    source $SCRIPTS_PATH/bash/${script}.sh
+done
+
+if [ $PLATFORM = "Darwin" ]; then
+    echo Loading $SCRIPTS_PATH/bash/macos.sh
+    source $SCRIPTS_PATH/bash/macos.sh
+elif [ $PLATFORM = "Linux" ]; then
+    echo Loading $SCRIPTS_PATH/bash/linux.sh
+    source $SCRIPTS_PATH/bash/linux.sh
+fi
+
+for rc in .atlrc .privaterc; do
+    if [ -e ~/$rc ]; then
+        echo Loading $rc
+        source ~/$rc
+    fi
+done
+
+echo .bashrc loaded

@@ -1,3 +1,28 @@
+Scripts
+=======
+
+Scripts, configurations, and setup for macOS and Linux
+
+    cd ~
+    git clone https://github.com/dakrauth/scripts
+    ./scripts/setup.sh
+
+Summary
+-------
+
+    ├── Brewfile      # a Homebrew Gem-like file for installation
+    ├── README.md     # your reading it now
+    ├── bash/         # contextual files to be sourced via dotfiles/bashrc
+    ├── bin/          # various executable scripts to be symlinked into $HOME/bin
+    ├── dotfiles/     # various config files to be symlinked into $HOME
+    ├── downloads.sh  # files to download that aren't available elsewise
+    └── setup.sh      # initial a new user account
+
+See `vw.help` for details about `vw`.
+
+Bash Quick Docs
+===============
+
 Shell parameter substitutions
 -----------------------------
 
@@ -15,6 +40,53 @@ Shell parameter substitutions
     # ${variable%%pattern}      # Trim the longest match from the end
     # ${variable#pattern}       # Trim the shortest match from the beginning
 
+Shell variables
+---------------
+
+* `$1`, `$2`, `$3`, ... are the [positional parameters](https://www.gnu.org/software/bash/manual/html_node/Positional-Parameters.html).
+* `"$@"` is an array-like construct of all positional parameters, `{$1, $2, $3 ...}`.
+* `"$*"` is the IFS expansion of all positional parameters, `$1 $2 $3 ...`.
+* `$#` is the number of positional parameters.
+* `$-` current options set for the shell.
+* `$$` pid of the current shell (not subshell).
+* `$_` most recent parameter (or the abs path of the command to start the current shell immediately after startup).
+* `$IFS` is the (input) field separator.
+* `$?` is the most recent foreground pipeline exit status.
+* `$!` is the PID of the most recent background command.
+* `$0` is the name of the shell or shell script.
+
+[Special Parameters](https://www.gnu.org/software/bash/manual/html_node/Special-Parameters.html).  
+[All environment variables set by the shell](https://www.gnu.org/software/bash/manual/html_node/Shell-Variables.html).  
+[Reference Manual Variable Index](https://www.gnu.org/software/bash/manual/html_node/Variable-Index.html).
+
+File tests, returns true if...
+------------------------------
+
+* `-e` file exists
+* `-a` file exists. This is identical in effect to -e. It has been "deprecated," [1] and its use is discouraged.
+* `-f` file is a regular file (not a directory or device file)
+* `-s` file is not zero size
+* `-d` file is a directory
+* `-b` file is a block device
+* `-c` file is a character device
+* `-p` file is a pipe
+* `-h` file is a symbolic link
+* `-L` file is a symbolic link
+* `-S` file is a socket
+* `-t` file (descriptor) is associated with a terminal device
+* `-r` file has read permission (for the user running the test)
+* `-w` file has write permission (for the user running the test)
+* `-x` file has execute permission (for the user running the test)
+* `-g` set-group-id (sgid) flag set on file or directory
+* `-u` set-user-id (suid) flag set on file
+* `-k` sticky bit set
+* `-O` you are owner of file
+* `-G` group-id of file same as yours
+* `-N` file modified since it was last read
+* `f1 -nt f2` file f1 is newer than f2
+* `f1 -ot f2` file f1 is older than f2
+* `f1 -ef f2` files f1 and f2 are hard links to the same file
+* `!` "not" -- reverses the sense of the tests above (returns true if condition absent).
 
 Colors
 ------

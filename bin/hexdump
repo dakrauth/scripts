@@ -1,0 +1,137 @@
+#! /usr/bin/env python
+"""hexdump.py - hex dump
+
+Ned Batchelder
+http://nedbatchelder.com
+"""
+
+# Broadly adapted from: http://www.kitebird.com/mysql-cookbook/
+
+__version__ = "20080424"    # Change history at end of file.
+
+import getopt, sys
+
+def ascii(x):
+    """Determine how to show a byte in ascii."""
+    if 32 <= x <= 126:
+        return chr(x)
+    elif 160 <= x <= 255:
+        return '.'
+    else:
+        return '.'
+
+def hexdump(f, width=16, verbose=0, start=0):
+    pos = 0
+    ascmap = [ascii(x) for x in range(256)]
+    lastbuf = ''
+    lastline = ''
+    nStarLen = 0
+
+    spaceCol = width // 2 if width > 4 else -1
+    hexwidth = 3 * width 
+    if spaceCol != -1:
+        hexwidth += 1
+
+    if start:
+        f.seek(start)
+        pos = start
+        
+    while 1:
+        buf = f.read(width)
+
+        length = len(buf)
+        if length == 0:
+            if nStarLen:
+                if nStarLen > 1:
+                    print("* %d" % (nStarLen-1))
+                print(lastline)
+            return
+
+        bShowBuf = 1
+        
+        if not verbose and buf == lastbuf:
+            nStarLen += 1
+            bShowBuf = 0
+        else:
+            if nStarLen:
+                if nStarLen == 1:
+                    print(lastline)
+                else:
+                    print("* %d" % nStarLen)
+            nStarLen = 0
+
+        # Compose output line
+        hex = ""
+        asc = ""
+        for i in range(length):
+            c = ord(buf[i])
+            if i == spaceCol:
+                hex += " "
+            hex = f'{hex}{c:02x} '
+            asc += ascmap[c]
+        line = "%06x: %-*s %s" % (pos, hexwidth, hex, asc)
+
+        if bShowBuf:
+            print(line)
+
+        pos += length
+        lastbuf = buf
+        lastline = line
+
+USAGE = '''hexdump: display data in hex
+hexdump [opts] [file ...]
+opts:
+    -s offset   start dumping from this offset
+    -v          show all data (else collapse duplicate lines)
+    -w width    show data this many bytes at a time (default 16)
+'''
+
+def main(args):
+
+    def usage():
+        print(USAGE)
+        sys.exit()
+        
+    try:
+        opts, args = getopt.getopt(args, "vw:s:")
+    except getopt.GetoptError:
+        # print help information and exit:
+        usage()
+
+    options = {}
+    for o, a in opts:
+        if o == '-s':
+            start = eval(a)
+            if type(start) != type(1) or start < 0:
+                usage()
+            options['start'] = start
+        elif o == '-v':
+            options['verbose'] = 1
+        elif o == '-w':
+            width = eval(a)
+            if type(width) != type(1) or not (1 <= width <= 100):
+                usage()
+            options['width'] = width
+        else:
+            usage()
+
+    # Read stdin if no files were named, otherwise read each named file
+    if not args:
+        hexdump(sys.stdin, **options)
+    else:
+        for name in args:
+            try:
+                with open(name, "rb") as f:
+                    hexdump(f, **options)
+            except IOError:
+                sys.stderr.write("*** Couldn't open {}\n".format(name))
+                continue
+
+
+if __name__ == '__main__':
+    try:
+        main(sys.argv[1:])
+    except KeyboardInterrupt:
+        print('\n-- interrupted --')
+    except IOError:
+        print('\n-- broken pipe --')

@@ -1,21 +1,26 @@
 [alias]
-    co = checkout
+    alias = config --get-regexp alias
+    br = branch
+    brv = "!f() { git branch --sort=-creatordate --color=always --format='%(color:reset)%(creatordate:short) %(color:bold white)%(align:2,right)%(upstream:trackshort)%(end)%(color:nobold) %(align:50,left)%(color:yellow)%(refname:short) %(color:red)[%(authorname)] %(end) %(color:reset)%(contents:subject)'; }; f"
+    brvr = "!f() { git branch -r --sort=-creatordate --color=always --format='%(color:reset)%(creatordate:short) %(color:bold white)%(align:2,right)%(upstream:trackshort)%(end)%(color:nobold) %(align:60,left)%(color:yellow)%(refname:short) %(color:red)[%(authorname)] %(end) %(color:reset)%(contents:subject)'; }; f"
+    changed = diff --name-only --cached --diff-filter=ACM
     ci = commit
     cia = commit -a
     ciam = commit -a -m
-    st = status
-    br = branch
-    pushf = push --force-with-lease
-    ls = log --abbrev-commit --graph --decorate --pretty=oneline
-    ll = log --abbrev-commit --graph --color --pretty=format:'%C(red)%h%Creset -%C(yellow)%d%Creset %s %C(green)(%cr) %C(bold magenta)<%an>%Creset'
-    type = cat-file -t
+    co = checkout
+    discard = checkout --
     dump = cat-file -p
+    ll = log --abbrev-commit --graph --color --pretty=format:'%C(red)%h%Creset -%C(yellow)%d%Creset %s %C(green)(%cr) %C(bold magenta)<%an>%Creset'
+    ls = log --abbrev-commit --graph --decorate --pretty=oneline
     pullf = pull --ff-only
     pullr = pull --rebase=true
-    alias = config --get-regexp alias
+    pushf = push --force-with-lease
     pushup = push -u origin
-    discard = checkout --
     refresh = remote update origin --prune
+    st = status
+    type = cat-file -t
+	hist = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
+	foo = log --abbrev-commit --graph --color --pretty=format:'%C(red)%h%Creset -%C(yellow)%d%Creset %s %C(green)(%cr) %C(bold magenta)<%an>%Creset'q
 [color]
     ui = true
 [color "branch"]
@@ -35,10 +40,10 @@
     branch = magenta bold
     unmerged = red yellow bold
 [commit]
-    template = ~/.stCommitMsg
+	template = /Users/dkrauth/.stCommitMsg
 [core]
     autocrlf = input
-    excludesfile = ~/.gitignore_global
+	excludesfile = /Users/dkrauth/.gitignore_global
 [credential]
     helper = store
 [diff]
@@ -48,24 +53,31 @@
 [difftool "Kaleidoscope"]
     cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
 [difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	cmd = /usr/local/bin/ksdiff -w \"$LOCAL\" \"$REMOTE\"
 	path = 
 [merge]
-    keepBackup = false;
+    keepBackup = false
     tool = Kaleidoscope
+    ff = only
 [mergetool]
     prompt = false
 [mergetool "Kaleidoscope"]
     cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
     trustexitcode = true
 [mergetool "sourcetree"]
-	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	cmd = /usr/local/bin/ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
 	trustExitCode = true
+[pull]
+    rebase = true
 [push]
     # Push current branch (and ONLY current branch) even if you've never pushed it before.
     default = current
 [rebase]
     autosquash = true
 [user]
-    name = David Krauth
-    email = dkrauth@theatlantic.com
+	name = David Krauth
+	email = dkrauth@theatlantic.com
+[branch "master"]
+    mergeoptions = --ff-only
+[branch "develop"]
+    mergeoptions = --ff-only
