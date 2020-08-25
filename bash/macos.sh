@@ -6,6 +6,7 @@ export MACOSX_DEPLOYMENT_TARGET=10.14
 export PICKER_DB_PORT=3306
 export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
 
+export BAT_THEME=OneHalfLight
 export CFLAGS="-Wno-error=varargs"
 
 if [ $ITERM_SESSION_ID ]; then
@@ -93,6 +94,7 @@ function google() {
     open "http://www.google.com/search?q=${query}"
 }
 
+alias real='command'
 alias dsclean='find . -name ".DS_Store" -exec rm {} \;'
 alias jsc='/System/Library/Frameworks/JavaScriptCore.framework/Versions/A/Resources/jsc'
 alias flushdns='sudo killall -HUP mDNSResponder'
