@@ -115,6 +115,8 @@ brew "mysql@5.7"
 # Cryptography and SSL/TLS Toolkit
 brew "openssl@1.1"
 
+# Internet file retriever
+brew "wget"
 
 #######
 # Casks
@@ -124,5 +126,20 @@ cask "qlcolorcode"
 cask "qlmarkdown"
 cask "qlstephen"
 cask "quicklook-json"
+
+cask "1password"
+cask "brave-browser"
+cask "cheatsheet"
 cask "chromedriver"
 cask "db-browser-for-sqlite"
+cask "docker"
+cask "dropbox"
+cask "firefox"
+cask "firefox-developer-edition"
+cask "google-chrome"
+cask "google-chrome-canary"
+cask "postman"
+cask "slack"
+cask "sourcetree"
+
+# cask "visual-studio-code"

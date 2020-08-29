@@ -5,9 +5,24 @@ linkdots
 linkbins
 source ~/.bash_profile
 
+mkdir -p ~/.ssh
+chmod 700 ~/.ssh
+echo Skip the passphrase
+ssh-keygen -t rsa -b 4096 -C "dakrauth@gmail.com"
+eval "$(ssh-agent -s)"
+
+cat << EOF > ~/.ssh/config
+Host *
+    AddKeysToAgent yes
+    UseKeychain yes
+    IdentityFile ~/.ssh/id_rsa
+EOF
+
+
+echo Installing nvm
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash
+
 PLATFORM=$(uname)
 if [ $PLATFORM = "Darwin" ]; then
-    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
-    brew doctor
-    brew bundle --file $SCRIPTS_PATH/Brewfile
+    ./setup/macos/init.sh
 fi
