@@ -1,4 +1,6 @@
 [alias]
+    foo = log --abbrev-commit --graph --color --pretty=format:'%C(red)%h%Creset -%C(yellow)%d%Creset %s %C(green)(%cr) %C(bold magenta)<%an>%Creset'q
+    hist = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
     alias = config --get-regexp alias
     br = branch
     brv = "!f() { git branch --sort=-creatordate --color=always --format='%(color:reset)%(creatordate:short) %(color:bold white)%(align:2,right)%(upstream:trackshort)%(end)%(color:nobold) %(align:50,left)%(color:yellow)%(refname:short) %(color:red)[%(authorname)] %(end) %(color:reset)%(contents:subject)'; }; f"
@@ -19,8 +21,10 @@
     refresh = remote update origin --prune
     st = status
     type = cat-file -t
-	hist = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
-	foo = log --abbrev-commit --graph --color --pretty=format:'%C(red)%h%Creset -%C(yellow)%d%Creset %s %C(green)(%cr) %C(bold magenta)<%an>%Creset'q
+
+    # Show how your #git local branch and its upstream diverge
+    # See https://twitter.com/nedbat/status/1017432899967160321?s=11
+    y = log --oneline --graph HEAD @{u} $(git merge-base HEAD @{u})^!
 [color]
     ui = true
 [color "branch"]

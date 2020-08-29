@@ -151,23 +151,27 @@ EOF
 
 # see http://www-128.ibm.com/developerworks/linux/library/l-tip-prompt/
 function configure_prompt() {
-    local FG_NORMAL="\[\e[0;m\]"
-    local FG_BLACK="\[\e[0;30m\]"
-    local FG_RED="\[\e[0;31m\]"
-    local FG_GREEN="\[\e[0;32m\]"
-    local FG_YELLOW="\[\e[0;33m\]"
-    local FG_BLUE="\[\e[0;34m\]"
-    local FG_MAGENTA="\[\e[0;35m\]"
-    local FG_CYAN="\[\e[0;36m\]"
-    local FG_WHITE="\[\e[0;37m\]"
-    local FG_BOLD_RED="\[\e[1;31m\]"
-    local FG_BOLD_GREEN="\[\e[1;32m\]"
-    local FG_BOLD_YELLOW="\[\e[1;33m\]"
-    local FG_BOLD_BLUE="\[\e[1;34m\]"
+    local       FG_NORMAL="\[\e[0;m\]"
+    local        FG_BLACK="\[\e[0;30m\]"
+    local          FG_RED="\[\e[0;31m\]"
+    local        FG_GREEN="\[\e[0;32m\]"
+    local       FG_YELLOW="\[\e[0;33m\]"
+    local         FG_BLUE="\[\e[0;34m\]"
+    local      FG_MAGENTA="\[\e[0;35m\]"
+    local         FG_CYAN="\[\e[0;36m\]"
+    local        FG_WHITE="\[\e[0;37m\]"
+    local     FG_BOLD_RED="\[\e[1;31m\]"
+    local   FG_BOLD_GREEN="\[\e[1;32m\]"
+    local  FG_BOLD_YELLOW="\[\e[1;33m\]"
+    local    FG_BOLD_BLUE="\[\e[1;34m\]"
     local FG_BOLD_MAGENTA="\[\e[1;35m\]"
-    local FG_BOLD_CYAN="\[\e[1;36m\]"
-    local FG_BOLD_WHITE="\[\e[1;37m\]"
-    export PS1=$FG_BLUE'[\w]'$FG_YELLOW'$(__git_ps1 " (%s)")'$FG_BLUE'\$ '$FG_NORMAL
+    local    FG_BOLD_CYAN="\[\e[1;36m\]"
+    local   FG_BOLD_WHITE="\[\e[1;37m\]"
+
+    local         BG_BLUE="\[\e[1;44m\]"
+    local       BG_YELLOW="\[\e[1;43m\]"
+
+    export PS1=${FG_BOLD_WHITE}${BG_YELLOW}'$(__git_ps1 "<%s>")'${BG_BLUE}${FG_BOLD_WHITE}'[\w]'$FG_BLUE'\$ '$FG_NORMAL
     export PS2='> '
     export PS4='+ '
 }
