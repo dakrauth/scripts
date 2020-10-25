@@ -12,10 +12,13 @@ ssh-keygen -t rsa -b 4096 -C "dakrauth@gmail.com"
 eval "$(ssh-agent -s)"
 
 cat << EOF > ~/.ssh/config
+ Host *.amc
+  User dkrauth
+
 Host *
-    AddKeysToAgent yes
-    UseKeychain yes
-    IdentityFile ~/.ssh/id_rsa
+  AddKeysToAgent yes
+  UseKeychain yes
+  IdentityFile ~/.ssh/id_rsa
 EOF
 
 

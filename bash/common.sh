@@ -93,6 +93,27 @@ function whatport() {
     lsof -i :$1
 }
 
+gitfzf () {
+    git log \
+        --color=always \
+        --format="%C(cyan)%h %C(blue)%ar%C(auto)%d \
+                  %C(yellow)%s%+b %C(black)%ae" "$@" |
+    fzf -i -e +s \
+        --reverse \
+        --tiebreak=index \
+        --no-multi \
+        --ansi \
+        --preview="echo {} |
+                   grep -o '[a-f0-9]\{7\}' |
+                   head -1 |
+                   xargs -I % sh -c 'git show --color=always % |
+                   diff-so-fancy'" \
+        --header "enter: view, C-c: copy hash" \
+        --bind "enter:execute:$_viewGitLogLine | less -R" \
+        --bind "ctrl-c:execute:$_gitLogLineToHash |
+                xclip -r -selection clipboard" 
+}
+
 function loadnvm() {
     export NVM_DIR="$HOME/.nvm"
 
@@ -149,6 +170,19 @@ with open('$1') as ifp:
 EOF
 }
 
+function reload() {
+    case $SHELL in
+        *"bash")
+            echo Reload ~/.bashrc
+            . ~/.bashrc
+            ;;
+        *"zsh")
+            echo Reload ~/.zshrc
+            . ~/.zshrc
+            ;;
+    esac
+}
+
 # see http://www-128.ibm.com/developerworks/linux/library/l-tip-prompt/
 function configure_prompt() {
     local       FG_NORMAL="\[\e[0;m\]"
@@ -188,7 +222,8 @@ alias getitall='wget --mirror --convert-links'
 alias hgrep='history | grep'
 alias dux='du -ks ./* | sort -nr'
 alias dc='docker-compose'
-alias reload='source ~/.bashrc'
+
+alias fzfp='fzf --ansi --preview="bat --color=always {}"'
 
 # directory tree - http://www.shell-fu.org/lister.php?id=209  
 alias dtree='find . -type d | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"'  

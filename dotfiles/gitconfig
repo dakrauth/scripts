@@ -1,5 +1,4 @@
 [alias]
-    foo = log --abbrev-commit --graph --color --pretty=format:'%C(red)%h%Creset -%C(yellow)%d%Creset %s %C(green)(%cr) %C(bold magenta)<%an>%Creset'q
     hist = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
     alias = config --get-regexp alias
     br = branch
@@ -12,19 +11,24 @@
     co = checkout
     discard = checkout --
     dump = cat-file -p
-    ll = log --abbrev-commit --graph --color --pretty=format:'%C(red)%h%Creset -%C(yellow)%d%Creset %s %C(green)(%cr) %C(bold magenta)<%an>%Creset'
+    ll = log --abbrev-commit --graph --pretty=format:'%Cred%h%Creset %s %C(bold magenta)<%an>%Creset %C(green)%cr%Creset%C(yellow)%d%Creset'
     ls = log --abbrev-commit --graph --decorate --pretty=oneline
     pullf = pull --ff-only
     pullr = pull --rebase=true
     pushf = push --force-with-lease
     pushup = push -u origin
     refresh = remote update origin --prune
+    showbrs = for-each-ref --color --sort=authorname --ignore-case --format="%(authorname)%20%(authoremail):%20%(color:yellow)%(refname:lstrip=3)%(color:reset)%20@%20%(objectname:short)%20[%(authordate:iso)%20-%20%(color:red)%(authordate:relative)%(color:reset)]%20%(subject)" refs/remotes
     st = status
     type = cat-file -t
-
-    # Show how your #git local branch and its upstream diverge
+    unstage = reset HEAD --
+    # Show how your git local branch and its upstream diverge
     # See https://twitter.com/nedbat/status/1017432899967160321?s=11
     y = log --oneline --graph HEAD @{u} $(git merge-base HEAD @{u})^!
+[branch "master"]
+    mergeoptions = --ff-only
+[branch "develop"]
+    mergeoptions = --ff-only
 [color]
     ui = true
 [color "branch"]
@@ -44,10 +48,11 @@
     branch = magenta bold
     unmerged = red yellow bold
 [commit]
-	template = /Users/dkrauth/.stCommitMsg
+    template = /Users/dkrauth/.stCommitMsg
 [core]
     autocrlf = input
-	excludesfile = /Users/dkrauth/.gitignore_global
+    excludesfile = /Users/dkrauth/.gitignore_global
+    pager = bat
 [credential]
     helper = store
 [diff]
@@ -71,6 +76,8 @@
 [mergetool "sourcetree"]
 	cmd = /usr/local/bin/ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
 	trustExitCode = true
+[pager]
+    branch = false
 [pull]
     rebase = true
 [push]
@@ -79,9 +86,5 @@
 [rebase]
     autosquash = true
 [user]
-	name = David Krauth
-	email = dkrauth@theatlantic.com
-[branch "master"]
-    mergeoptions = --ff-only
-[branch "develop"]
-    mergeoptions = --ff-only
+    name = David Krauth
+    email = dakrauth@gmail.com

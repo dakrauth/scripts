@@ -1,21 +1,16 @@
-import textwrap
-from __future__ import print_function
-from pprint import pprint
+# Pretty print various common things
+alias ppd pp dir(%1)
+alias ppg pp globals()
+alias ppl pp locals()
+alias ppo pp %1.__dict__
+alias pps ppo self
+alias ppv pp vars(%1)
 
-# Print instance variables
-alias pinst for k in %1.__dict__: print("%s.%s\n%s" % ("%1",k,textwrap.fill(str(%1.__dict__[k]),initial_indent=' ',subsequent_indent='+')))
-
-# Print a dictionary, sorted. %1 is the dict
-alias p_ pprint(%1)
-
-alias pobj p_ %1.__dict__
-alias pdir p_ dir(%1)
-alias pvars p_ vars(%1)
-alias plocals p_ locals()
-alias pglobals p_ globals()
-
-# Next and list, and step and list.
+# Next and list
 alias nl n;;l
+
+# Step and list
 alias sl s;;l
+
 alias inspect import inspect;print inspect.getsource(%1)
 alias tb tbreak %1;;c
