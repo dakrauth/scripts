@@ -13,19 +13,17 @@ import getopt, sys
 
 def ascii(x):
     """Determine how to show a byte in ascii."""
-    if 32 <= x <= 126:
-        return chr(x)
-    elif 160 <= x <= 255:
-        return '.'
-    else:
-        return '.'
+    return chr(x) if 32 <= x <= 126 else '.'
+
 
 def hexdump(f, width=16, verbose=0, start=0):
     pos = 0
     ascmap = [ascii(x) for x in range(256)]
-    lastbuf = ''
-    lastline = ''
-    nStarLen = 0
+    ascmap[ord('\n')] = '␊'
+    ascmap[ord('\t')] = '⇥'
+    last_buf = ''
+    last_line = ''
+    start_len = 0
 
     spaceCol = width // 2 if width > 4 else -1
     hexwidth = 3 * width 
@@ -41,42 +39,42 @@ def hexdump(f, width=16, verbose=0, start=0):
 
         length = len(buf)
         if length == 0:
-            if nStarLen:
-                if nStarLen > 1:
-                    print("* %d" % (nStarLen-1))
-                print(lastline)
+            if start_len:
+                if start_len > 1:
+                    print("* %d" % (start_len-1))
+                print(last_line)
             return
 
-        bShowBuf = 1
+        show_buf = 1
         
-        if not verbose and buf == lastbuf:
-            nStarLen += 1
-            bShowBuf = 0
+        if not verbose and buf == last_buf:
+            start_len += 1
+            show_buf = 0
         else:
-            if nStarLen:
-                if nStarLen == 1:
-                    print(lastline)
+            if start_len:
+                if start_len == 1:
+                    print(last_line)
                 else:
-                    print("* %d" % nStarLen)
-            nStarLen = 0
+                    print("* %d" % start_len)
+            start_len = 0
 
         # Compose output line
         hex = ""
         asc = ""
         for i in range(length):
-            c = ord(buf[i])
+            c = buf[i]
             if i == spaceCol:
                 hex += " "
             hex = f'{hex}{c:02x} '
             asc += ascmap[c]
         line = "%06x: %-*s %s" % (pos, hexwidth, hex, asc)
 
-        if bShowBuf:
+        if show_buf:
             print(line)
 
         pos += length
-        lastbuf = buf
-        lastline = line
+        last_buf = buf
+        last_line = line
 
 USAGE = '''hexdump: display data in hex
 hexdump [opts] [file ...]
@@ -93,7 +91,7 @@ def main(args):
         sys.exit()
         
     try:
-        opts, args = getopt.getopt(args, "vw:s:")
+        opts, args = getopt.getopt(args, "pvw:s:")
     except getopt.GetoptError:
         # print help information and exit:
         usage()
@@ -105,6 +103,8 @@ def main(args):
             if type(start) != type(1) or start < 0:
                 usage()
             options['start'] = start
+        elif o == '-p':
+            import pdb; pdb.set_trace()
         elif o == '-v':
             options['verbose'] = 1
         elif o == '-w':

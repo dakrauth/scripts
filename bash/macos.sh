@@ -1,8 +1,10 @@
 # See README.md
 
 export LSCOLORS="GxFxdadxDxegedabagAcad"
-export SDKROOT=/Library/Developer/CommandLineTools/SDKs/MacOSX10.14.sdk
-export MACOSX_DEPLOYMENT_TARGET=10.14
+
+export SDKROOT="$(xcrun --show-sdk-path)"
+export MACOSX_DEPLOYMENT_TARGET="$(sw_vers -productVersion | cut -c -5)"    # e.g.: 10.14
+
 export PICKER_DB_PORT=3306
 export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
 
@@ -103,7 +105,7 @@ alias safari='open -a /Applications/Safari.app'
 alias camerareset='sudo killall VDCAssistant'
 alias sqliteui='/Applications/DB\ Browser\ for\ SQLite.app/Contents/MacOS/DB\ Browser\ for\ SQLite'
 
-echo Loading ~/.iterm2_shell_integration.bash
+[[ $ECHO_ON = "1" ]] && echo Loading ~/.iterm2_shell_integration.bash
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
 
 loadflags "mysql@5.7"

@@ -21,7 +21,7 @@ brew "freetype"
 brew "jpeg"
 
 # C and C++ client library to the memcached server
-brew "libmemcached"
+# brew "libmemcached"
 
 # Library for manipulating PNG images
 brew "libpng"
@@ -52,7 +52,7 @@ brew "zlib"
 brew "ack"
 
 # Graphical system information display for macOS
-brew "archey"
+# brew "archey"
 
 # Clone of cat(1) with syntax highlighting and Git integration
 brew "bat"
@@ -105,6 +105,9 @@ brew "trash"
 # Display directories as trees (with optional color/HTML output)
 brew "tree"
 
+# Internet file retriever
+brew "wget"
+
 #######################
 # Specific Version Apps
 #######################
@@ -114,9 +117,6 @@ brew "mysql@5.7"
 
 # Cryptography and SSL/TLS Toolkit
 brew "openssl@1.1"
-
-# Internet file retriever
-brew "wget"
 
 #######
 # Casks
@@ -139,6 +139,7 @@ cask "firefox-developer-edition"
 cask "google-chrome"
 cask "google-chrome-canary"
 cask "postman"
+cask "sequel-ace"
 cask "slack"
 cask "sourcetree"
 

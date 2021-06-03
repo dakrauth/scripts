@@ -2,7 +2,9 @@ export PIP_REQUIRE_VIRTUALENV=true
 export PYTHONWARNINGS="ignore:DEPRECATION::pip._internal.cli.base_command"
 export VW_HOME=$HOME/dev/venvs
 
-eval "$(pyenv init -)"
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init --path)"
 
 alias py.mail='sudo python -m smtpd -n -c DebuggingServer localhost:25'
 alias py.serve='python -m http.server'

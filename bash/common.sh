@@ -1,5 +1,5 @@
 if [ -t 1 ]; then
-    echo Using ssty sane
+    [[ $ECHO_ON = "1" ]] && echo Using ssty sane
     stty sane
 fi
 
@@ -35,6 +35,10 @@ function loadflags() {
     else
         export PKG_CONFIG_PATH="/usr/local/opt/$1/lib/pkgconfig"
     fi
+}
+
+function weather() {
+    curl https://wttr.in/"$*"
 }
 
 function shelp() {
