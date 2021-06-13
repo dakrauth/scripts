@@ -9,7 +9,7 @@ ulimit -n 2048
 PROMPT_COMMAND='history -a'
 
 export PLATFORM=$(uname)
-export PATH="$HOME/bin:$HOME/.local/bin:/usr/local/bin:/usr/local/sbin:$PATH"
+export PATH="$HOME/bin:$HOME/.local/bin:/usr/local/sbin:$PATH"
 
 # Eternal bash history.
 # ---------------------
@@ -214,6 +214,7 @@ function configure_prompt() {
     export PS4='+ '
 }
 
+alias myip='curl http://ipecho.net/plain; echo'
 alias utcnow='python -c "import datetime;print(datetime.datetime.utcnow())"'
 alias ll='ls -alFG'
 alias h='history'

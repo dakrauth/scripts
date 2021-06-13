@@ -107,7 +107,7 @@ unalias run-help 2>/dev/null
 autoload run-help
 alias help='run-help'
 
-export PATH="$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH"
+export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
 
 export BAT_THEME=OneHalfLight
 
