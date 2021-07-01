@@ -6,8 +6,10 @@ export SDKROOT="$(xcrun --show-sdk-path)"
 export MACOSX_DEPLOYMENT_TARGET="$(sw_vers -productVersion | cut -c -5)"    # e.g.: 10.14
 
 export PICKER_DB_PORT=3306
-export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
+#export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
+export PATH="/usr/local/opt/mysql-client@5.7/bin:$PATH"
 
+export HOMEBREW_NO_AUTO_UPDATE=1
 export BAT_THEME=OneHalfLight
 export CFLAGS="-Wno-error=varargs"
 
@@ -108,5 +110,6 @@ alias sqliteui='/Applications/DB\ Browser\ for\ SQLite.app/Contents/MacOS/DB\ Br
 [[ $ECHO_ON = "1" ]] && echo Loading ~/.iterm2_shell_integration.bash
 test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
 
-loadflags "mysql@5.7"
+#loadflags "mysql@5.7"
+loadflags "mysql-client@5.7"
 loadflags "openssl@1.1"
