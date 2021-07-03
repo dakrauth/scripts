@@ -1,27 +1,64 @@
+shell=${SHELL##*/}
+
 if [ -t 1 ]; then
     [[ $ECHO_ON = "1" ]] && echo Using ssty sane
     stty sane
 fi
 
-shopt -s histappend
-shopt -s checkwinsize
+if [[ "$shell" = 'bash' ]]; then
+    shopt -s histappend
+    shopt -s checkwinsize
+
+    # Eternal bash history.
+    # ---------------------
+    # Undocumented feature which sets the size to "unlimited".
+    # http://stackoverflow.com/questions/9457233/unlimited-bash-history
+    export HISTCONTROL=ignoredups
+    export HISTFILESIZE=
+    export HISTSIZE=
+    export HISTTIMEFORMAT="[%F %T] "
+    # Change the file location because certain bash sessions truncate .bash_history file upon close.
+    # http://superuser.com/questions/575479/bash-history-truncated-to-500-lines-on-each-login
+    export HISTFILE=~/.bash_eternal_history
+
+    # see http://www-128.ibm.com/developerworks/linux/library/l-tip-prompt/
+    function configure_prompt() {
+        local       FG_NORMAL="\[\e[0;m\]"
+        local        FG_BLACK="\[\e[0;30m\]"
+        local          FG_RED="\[\e[0;31m\]"
+        local        FG_GREEN="\[\e[0;32m\]"
+        local       FG_YELLOW="\[\e[0;33m\]"
+        local         FG_BLUE="\[\e[0;34m\]"
+        local      FG_MAGENTA="\[\e[0;35m\]"
+        local         FG_CYAN="\[\e[0;36m\]"
+        local        FG_WHITE="\[\e[0;37m\]"
+        local     FG_BOLD_RED="\[\e[1;31m\]"
+        local   FG_BOLD_GREEN="\[\e[1;32m\]"
+        local  FG_BOLD_YELLOW="\[\e[1;33m\]"
+        local    FG_BOLD_BLUE="\[\e[1;34m\]"
+        local FG_BOLD_MAGENTA="\[\e[1;35m\]"
+        local    FG_BOLD_CYAN="\[\e[1;36m\]"
+        local   FG_BOLD_WHITE="\[\e[1;37m\]"
+
+        local         BG_BLUE="\[\e[1;44m\]"
+        local       BG_YELLOW="\[\e[1;43m\]"
+
+        export PS1=${FG_BOLD_WHITE}${BG_YELLOW}'$(__git_ps1 "<%s>")'${BG_BLUE}${FG_BOLD_WHITE}'[\w]'$FG_BLUE'\$ '$FG_NORMAL
+        export PS2='> '
+        export PS4='+ '
+    }
+
+    source /usr/local/etc/bash_completion.d/git-completion.bash
+    source /usr/local/etc/bash_completion.d/git-prompt.sh
+    configure_prompt
+
+fi
+
 ulimit -n 2048
 PROMPT_COMMAND='history -a'
 
 export PLATFORM=$(uname)
 export PATH="$HOME/bin:$HOME/.local/bin:/usr/local/sbin:$PATH"
-
-# Eternal bash history.
-# ---------------------
-# Undocumented feature which sets the size to "unlimited".
-# http://stackoverflow.com/questions/9457233/unlimited-bash-history
-export HISTCONTROL=ignoredups
-export HISTFILESIZE=
-export HISTSIZE=
-export HISTTIMEFORMAT="[%F %T] "
-# Change the file location because certain bash sessions truncate .bash_history file upon close.
-# http://superuser.com/questions/575479/bash-history-truncated-to-500-lines-on-each-login
-export HISTFILE=~/.bash_eternal_history
 
 export COPYFILE_DISABLE=true
 export EDITOR="/usr/local/bin/subl -w"
@@ -187,33 +224,6 @@ function reload() {
     esac
 }
 
-# see http://www-128.ibm.com/developerworks/linux/library/l-tip-prompt/
-function configure_prompt() {
-    local       FG_NORMAL="\[\e[0;m\]"
-    local        FG_BLACK="\[\e[0;30m\]"
-    local          FG_RED="\[\e[0;31m\]"
-    local        FG_GREEN="\[\e[0;32m\]"
-    local       FG_YELLOW="\[\e[0;33m\]"
-    local         FG_BLUE="\[\e[0;34m\]"
-    local      FG_MAGENTA="\[\e[0;35m\]"
-    local         FG_CYAN="\[\e[0;36m\]"
-    local        FG_WHITE="\[\e[0;37m\]"
-    local     FG_BOLD_RED="\[\e[1;31m\]"
-    local   FG_BOLD_GREEN="\[\e[1;32m\]"
-    local  FG_BOLD_YELLOW="\[\e[1;33m\]"
-    local    FG_BOLD_BLUE="\[\e[1;34m\]"
-    local FG_BOLD_MAGENTA="\[\e[1;35m\]"
-    local    FG_BOLD_CYAN="\[\e[1;36m\]"
-    local   FG_BOLD_WHITE="\[\e[1;37m\]"
-
-    local         BG_BLUE="\[\e[1;44m\]"
-    local       BG_YELLOW="\[\e[1;43m\]"
-
-    export PS1=${FG_BOLD_WHITE}${BG_YELLOW}'$(__git_ps1 "<%s>")'${BG_BLUE}${FG_BOLD_WHITE}'[\w]'$FG_BLUE'\$ '$FG_NORMAL
-    export PS2='> '
-    export PS4='+ '
-}
-
 alias myip='curl http://ipecho.net/plain; echo'
 alias utcnow='python -c "import datetime;print(datetime.datetime.utcnow())"'
 alias ll='ls -alFG'
@@ -232,7 +242,3 @@ alias fzfp='fzf --ansi --preview="bat --color=always {}"'
 
 # directory tree - http://www.shell-fu.org/lister.php?id=209  
 alias dtree='find . -type d | sed -e "s/[^-][^\/]*\//  |/g" -e "s/|\([^ ]\)/|-\1/"'  
-
-source /usr/local/etc/bash_completion.d/git-completion.bash
-source /usr/local/etc/bash_completion.d/git-prompt.sh
-configure_prompt

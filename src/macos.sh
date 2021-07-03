@@ -1,4 +1,11 @@
 # See README.md
+shell=${SHELL##*/}
+if [[ "$shell" = "bash" ]]; then
+    root="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd -P )"
+else
+    #root="${(%):-%x}"
+    root=$( cd "$( dirname "${(%):-%x}" )" 2>&1 && pwd -P )
+fi
 
 export LSCOLORS="GxFxdadxDxegedabagAcad"
 
@@ -107,8 +114,10 @@ alias safari='open -a /Applications/Safari.app'
 alias camerareset='sudo killall VDCAssistant'
 alias sqliteui='/Applications/DB\ Browser\ for\ SQLite.app/Contents/MacOS/DB\ Browser\ for\ SQLite'
 
-[[ $ECHO_ON = "1" ]] && echo Loading ~/.iterm2_shell_integration.bash
-test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"
+if [[ -f "${HOME}/.iterm2_shell_integration.${shell}" ]]; then
+    [[ $ECHO_ON = "1" ]] && echo Loading ~/.iterm2_shell_integration.${shell}
+    source "${HOME}/.iterm2_shell_integration.${shell}"
+fi
 
 #loadflags "mysql@5.7"
 loadflags "mysql-client@5.7"

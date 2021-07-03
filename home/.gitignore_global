@@ -1,0 +1,5 @@
+*~
+.DS_Store
+apps/atlantic/common/static/common/css/normalize.css
+atlmod.py
+fixes.json

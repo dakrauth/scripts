@@ -1,4 +1,3 @@
-#!/bin/bash
 # A mashup of the old virtualenvwrapper and helper aliases.
 # The basic idea is that all venv dirs are housed under 1 directory so as not to
 # pollute individual repositories.
@@ -8,6 +7,11 @@
 
 export VW_HOME=${VW_HOME:=~/.venvs}
 mkdir -p "${VW_HOME}"
+shell=${SHELL##*/}
+
+function pyversion() {
+    python -V  | awk '{split($2, a, "."); print a[1] "." a[2]}'
+}
 
 function vw__help() {
     echo "vw -- a venv convenience wrapper"
@@ -81,8 +85,20 @@ function vw__make() {
     fi
 }
 
+function venv_location() {
+    if [[ -z $1 ]]; then
+        echo $VIRTUAL_ENV/lib/python$(pyversion)/site-packages
+    else
+        echo $VIRTUAL_ENV/$1
+    fi
+}
+
 function vw__cd() {
-    pushd "$VIRTUAL_ENV/$1"
+    if [ $VIRTUAL_ENV ]; then
+        pushd "$(venv_location $1)"
+    else
+        echo "Virtual env not activated"
+    fi
 }
 
 function vw__remove () {
@@ -99,8 +115,8 @@ function vw__remove () {
 }
 
 function vw__list() {
-    local location=($VIRTUAL_ENV/$1)
     if [ $VIRTUAL_ENV ]; then
+        local location="$(venv_location $1)"
         echo "Listing $location"
         ls -Al "$location"
     else
@@ -109,7 +125,12 @@ function vw__list() {
 }
 
 function vw__aliases() {
-    alias | grep "^alias vw" | sed 's/^alias //'
+    if [[ "$SHELL" =~ "zsh" ]];
+    then
+        alias | grep "vw\." | awk -F= '{print $1}'
+    else
+        alias | grep "alias vw\." | awk -F"[ =]" '{print $2}'
+    fi
 }
 
 alias vw='vw__make'
@@ -117,10 +138,10 @@ alias vw.help='vw__help'
 alias vw.x='deactivate'
 alias vw.rm='vw__remove'
 alias vw.cd='vw__cd'
-alias vw.cds='vw__cd lib/python*/site-packages'
+alias vw.cds='vw__cd'
 alias vw.cdsrc='vw__cd src'
 alias vw.cdb='vw__cd bin'
-alias vw.ls='vw__list lib/python*/site-packages'
+alias vw.ls='vw__list'
 alias vw.lss='vw__list src'
 alias vw.lsb='vw__list bin'
 alias vw.what='vw__which'
