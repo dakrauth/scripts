@@ -99,7 +99,8 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 export EDITOR='/usr/local/bin/subl -w'
 
-alias zshconf="subl ~/.zshrc"
+alias zedit="subl ~/.zshrc"
+alias zload=". ~/.zshrc"
 alias ll='ls -alFG'
 alias subl="/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl"
 

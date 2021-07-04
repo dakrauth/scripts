@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # Purloined from:
 #    https://github.com/mathiasbynens/dotfiles/blob/master/.macos
 

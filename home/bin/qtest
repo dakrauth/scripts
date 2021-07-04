@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if [ -e pytest-out.txt ]; then
+    ts=$(stat -f "%Sm" -t "%Y%m%d-%H%M%S" pytest-out.txt)
+    mv pytest-out.txt pytest-out.$ts.txt
+fi
+
+pytest \
+    --numprocesses=2 \
+    --tb=short \
+    --exclude-tag=selenium \
+    "$@" | tee pytest-out.txt

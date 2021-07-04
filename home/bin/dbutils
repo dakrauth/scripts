@@ -1,0 +1,75 @@
+DBBAK_DIR=~/dev/bak
+DBBAK_NAMES="bdp travel dakrauth"
+DBBAK_PORT=13306
+DBBAK_HOST=0.0.0.0
+
+# use mysql_config_editor set -u user -P port -h host -p
+# for example,  mysql_config_editor set -h 0.0.0.0 -u root -P 13306 -p
+
+mkdir -p ${DBBAK_DIR}
+
+function dbdump() {
+    local items=""
+    if [ ! -n "$1" ]; then
+        items=$DBBAK_NAMES
+        echo Dumping default DBs...
+        echo $DBBAK_NAMES
+    else
+        items="$@"
+        echo Dumping selected DBs...
+        echo "$@"
+    fi
+
+    for name in $items; do
+        local SQLFILE=${name}.sql
+        local OUTFILE=${SQLFILE}.gz
+        local WHEN=`date "+%Y%m%d-%H%M"`
+        local WHERE="${DBBAK_DIR}/${name}"
+        echo Dumping ${name} to ${WHERE} ...
+
+        mkdir -p ${WHERE}
+        pushd ${WHERE} > /dev/null
+        rm -f ${SQLFILE} ${OUTFILE}
+        if [ ${name} = "travel" ]; then
+            ssh dak "mysqldump --default-character-set=utf8mb4 ${name} | gzip" > ${OUTFILE}
+        elif [ ${name} = "bdp" ]; then
+            ssh david@ballroomdanceportland.com "mysqldump ${name} | gzip" > ${OUTFILE}
+        else
+            ssh dak "mysqldump ${name} | gzip" > ${OUTFILE}
+        fi
+
+        cp ${OUTFILE} ${WHEN}.${OUTFILE}
+        echo Unzipping $name ...
+        gunzip ${OUTFILE}
+        popd  > /dev/null
+        echo Done.
+    done
+}
+
+function dbload() {
+    local items=""
+    if [ ! -n "$1" ]; then
+        items=$DBBAK_NAMES
+        echo Loading default DBs...
+        echo $DBBAK_NAMES
+    else
+        items="$@"
+        echo Loading selected DBs "$@" ...
+    fi
+
+    for name in $items; do
+        local sqlfile="${DBBAK_DIR}/${name}/${name}.sql"
+        if [ ! -e "$sqlfile" ]; then
+            dbdump $name
+        fi
+        echo Loading $name "$DBBAK_HOST":"$DBBAK_PORT" ...
+        mysql -P $DBBAK_PORT -h $DBBAK_HOST $name < "$sqlfile"
+        echo "Done ($?)."
+    done
+
+}
+
+function dbreload() {
+    dbdump "$@"
+    dbload "$@"
+}

@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 readonly homeDir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd -P )/home"
 echo homeDir="${homeDir}"
 echo ====================

@@ -26,11 +26,26 @@ function __pyclean() {
     find ${1:-$PWD} -type d -name __pycache__ | xargs rmdir
 }
 
+function __pypath() {
+    import sys
+    args = sys.argv[1:]
+    if len(args) == 0:
+        print('\n'.join(sys.path))
+    else:
+        for m in args:
+            try:
+                mod = __import__(m)
+            except ImportError:
+                print("*** Could not import ", m)
+            else:
+                print(mod.__file__)
+}
+
 alias py.mail='sudo python -m smtpd -n -c DebuggingServer localhost:25'
 alias py.serve='python -m http.server'
 alias py.warn='python -Wonce'
 alias py.error='python -Werror'
-alias py.path='python -c "import sys; print(\"\n\".join(sys.path))"'
+alias py.path='__pypath'
 alias py.ack='ack --python'
 alias py.m='python -m'
 alias py.jt='python -m json.tool'
