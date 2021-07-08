@@ -27,18 +27,22 @@ function __pyclean() {
 }
 
 function __pypath() {
-    import sys
-    args = sys.argv[1:]
-    if len(args) == 0:
-        print('\n'.join(sys.path))
-    else:
-        for m in args:
-            try:
-                mod = __import__(m)
-            except ImportError:
-                print("*** Could not import ", m)
-            else:
-                print(mod.__file__)
+    echo "$*"
+    python "$*" <<EOF
+import sys
+args = sys.argv[1:]
+print(args, end='\n\n')
+if len(args) == 0:
+    print('\n'.join(sys.path))
+else:
+    for m in args:
+        try:
+            mod = __import__(m)
+        except ImportError:
+            print("*** Could not import ", m)
+        else:
+            print(mod.__file__)
+EOF
 }
 
 alias py.mail='sudo python -m smtpd -n -c DebuggingServer localhost:25'

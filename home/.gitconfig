@@ -55,7 +55,7 @@
     excludesfile = /Users/dkrauth/.gitignore_global
     pager = bat
 [credential]
-    helper = store
+	helper = osxkeychain
 [diff]
     tool = Kaleidoscope
 [difftool]
