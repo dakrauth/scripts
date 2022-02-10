@@ -4,11 +4,6 @@ export PIP_REQUIRE_VIRTUALENV=true
 export PYTHONWARNINGS="ignore:DEPRECATION::pip._internal.cli.base_command"
 export VW_HOME=$HOME/dev/venvs
 
-export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init --path)"
-
-
 function __pyhelp() {
     if [[ "$shell" == "zsh" ]]; then
         alias | grep "^py\." | awk -F= '{print $1}'

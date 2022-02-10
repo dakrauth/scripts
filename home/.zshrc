@@ -108,8 +108,6 @@ unalias run-help 2>/dev/null
 autoload run-help
 alias help='run-help'
 
-export PATH="$HOME/bin:$HOME/.local/bin:$PATH"
-
 export BAT_THEME=OneHalfLight
 
 gitfzf () {
@@ -137,5 +135,13 @@ alias path='echo -e ${PATH//:/\\n}'
 
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
-eval "$(pyenv init --path)"
+
 eval "$(pyenv init -)"
+source $HOME/scripts/src/load.sh
+
+source $HOME/bin/dbutils
+
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+eval "$(pyenv virtualenv-init -)"

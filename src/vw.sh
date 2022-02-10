@@ -18,8 +18,8 @@ function vw__help() {
     echo "    A mashup of the old virtualenvwrapper and helper aliases."
     echo "    Virtual environments will be created in the \$VW_HOME ($VW_HOME)"
     echo
-    echo Examples:
-    echo ---------
+    echo "Examples:"
+    echo "---------"
     echo "   vw            # show listing of available venvs"
     echo "   vw <foo>      # activate venv foo if it exists or first create it"
     echo "   vw.x          # deactivate the current venv"
@@ -29,14 +29,15 @@ function vw__help() {
     echo "   vw.cds        # change dir to the current venv's site-packages dir"
     echo "   vw.what       # show current venv"
     echo
-    echo Shortcuts:
-    echo ----------
+    echo "Shortcuts:"
+    echo "----------"
     vw__aliases
 }
 
 function vw__which() {
     if [ $VIRTUAL_ENV ]; then
-        echo VIRTUAL_ENV = $VIRTUAL_ENV
+        local pyver=$(python -V 2>&1 | cut -d" " -f 2)
+        echo "VIRTUAL_ENV = $VIRTUAL_ENV (${pyver})"
     else
         echo VIRTUAL_ENV Not Set
     fi
@@ -55,8 +56,8 @@ function vw__show() {
     local ver=""
     for name in $VW_HOME/*; do
         if [[ -d $name && -e $name/bin/python ]]; then
-            ver=`$name/bin/python -V 2>&1`
-            echo "$(basename $name) ($ver)"
+            ver=$($name/bin/python -V 2>&1 | cut -d" " -f 2)
+            printf "%-20s %s\n" "$(basename $name)" "$ver"
         fi
     done
 }
@@ -77,8 +78,13 @@ function vw__make() {
         if [ -d $fullpath ]; then
             echo "Found $fullpath"
         else
-            echo "Creating venv $fullpath with Python ${pyver} (using python -m venv)"
-            python -m venv $fullpath
+            if [[ ${pyver} =~ "^2" ]]; then
+                echo "Creating venv $fullpath with Python ${pyver} (using virtualenv)"
+                virtualenv "$fullpath"
+            else
+                echo "Creating venv $fullpath with Python ${pyver} (using python -m venv)"
+                python -m venv "$fullpath"
+            fi
         fi
         echo Activating "$fullpath"
         source "$fullpath/bin/activate"
@@ -133,6 +139,16 @@ function vw__aliases() {
     fi
 }
 
+function vw__reload() {
+    if [[ "$shell" = "zsh" ]]; then
+        echo "Reloading ${(%):-%x}"
+        source "${(%):-%x}"
+    else
+        echo "Reloading ${BASH_SOURCE[0]}"
+        source "${BASH_SOURCE[0]}"
+    fi
+}
+
 alias vw='vw__make'
 alias vw.help='vw__help'
 alias vw.x='deactivate'
@@ -147,4 +163,4 @@ alias vw.lsb='vw__list bin'
 alias vw.what='vw__which'
 alias vw.which='vw__which'
 alias vw.alias='vw__aliases'
-
+alias vw.reload='vw__reload'

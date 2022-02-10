@@ -70,7 +70,7 @@ brew "fswatch"
 brew "gifsicle"
 
 # Distributed revision control system
-brew "git"
+#brew "git"
 
 # Graph visualization software from AT&T and Bell Labs
 brew "graphviz"
@@ -82,10 +82,10 @@ brew "markdown"
 brew "pandoc"
 
 # Python version management
-brew "pyenv"
+#brew "pyenv"
 
 # Persistent key-value database, with built-in net interface
-brew "redis", restart_service: true
+#brew "redis", restart_service: true
 
 # Perl-powered file rename script with many helpful built-ins
 brew "rename"
@@ -124,7 +124,7 @@ cask "qlmarkdown"
 cask "qlstephen"
 cask "quicklook-json"
 
-cask "1passwod"
+cask "1password"
 cask "affinity-designer"
 cask "affinity-photo"
 cask "alfred"

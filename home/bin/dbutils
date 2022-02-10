@@ -1,5 +1,6 @@
+#!/bin/bash
 DBBAK_DIR=~/dev/bak
-DBBAK_NAMES="bdp travel dakrauth"
+DBBAK_NAMES=(travel dakrauth bdp)
 DBBAK_PORT=13306
 DBBAK_HOST=0.0.0.0
 
@@ -9,9 +10,9 @@ DBBAK_HOST=0.0.0.0
 mkdir -p ${DBBAK_DIR}
 
 function dbdump() {
-    local items=""
+    local items
     if [ ! -n "$1" ]; then
-        items=$DBBAK_NAMES
+        items=("${DBBAK_NAMES[@]}")
         echo Dumping default DBs...
         echo $DBBAK_NAMES
     else
@@ -20,12 +21,12 @@ function dbdump() {
         echo "$@"
     fi
 
-    for name in $items; do
+    for name in "${items[@]}"; do
         local SQLFILE=${name}.sql
         local OUTFILE=${SQLFILE}.gz
         local WHEN=`date "+%Y%m%d-%H%M"`
         local WHERE="${DBBAK_DIR}/${name}"
-        echo Dumping ${name} to ${WHERE} ...
+        echo ${WHEN} Dumping ${name} to ${WHERE} ...
 
         mkdir -p ${WHERE}
         pushd ${WHERE} > /dev/null

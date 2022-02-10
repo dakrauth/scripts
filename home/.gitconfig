@@ -13,6 +13,7 @@
     dump = cat-file -p
     ll = log --abbrev-commit --graph --pretty=format:'%Cred%h%Creset %s %C(bold magenta)<%an>%Creset %C(green)%cr%Creset%C(yellow)%d%Creset'
     ls = log --abbrev-commit --graph --decorate --pretty=oneline
+    mergeff = merge --ff-only
     pullf = pull --ff-only
     pullr = pull --rebase=true
     pushf = push --force-with-lease
@@ -52,7 +53,7 @@
     template = /Users/dkrauth/.stCommitMsg
 [core]
     autocrlf = input
-    excludesfile = /Users/dkrauth/.gitignore_global
+	excludesfile = /Users/david/.gitignore_global
     pager = bat
 [credential]
 	helper = osxkeychain
@@ -63,7 +64,7 @@
 [difftool "Kaleidoscope"]
     cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
 [difftool "sourcetree"]
-	cmd = /usr/local/bin/ksdiff -w \"$LOCAL\" \"$REMOTE\"
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
 	path = 
 [merge]
     keepBackup = false
@@ -75,7 +76,7 @@
     cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
     trustexitcode = true
 [mergetool "sourcetree"]
-	cmd = /usr/local/bin/ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
 	trustExitCode = true
 [pager]
     branch = false
@@ -89,3 +90,5 @@
 [user]
     name = David Krauth
     email = dakrauth@gmail.com
+[init]
+	defaultBranch = main

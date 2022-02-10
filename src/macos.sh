@@ -14,11 +14,10 @@ export MACOSX_DEPLOYMENT_TARGET="$(sw_vers -productVersion | cut -c -5)"    # e.
 
 export PICKER_DB_PORT=3306
 #export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
-export PATH="/usr/local/opt/mysql-client@5.7/bin:$PATH"
+export PATH="/usr/local/opt/mysql-client/bin:$PATH"
 
 export HOMEBREW_NO_AUTO_UPDATE=1
 export BAT_THEME=OneHalfLight
-export CFLAGS="-Wno-error=varargs"
 
 if [ $ITERM_SESSION_ID ]; then
     export PROMPT_COMMAND='echo -ne "\033]0;${PWD##*/}\007"'
@@ -119,6 +118,7 @@ if [[ -f "${HOME}/.iterm2_shell_integration.${shell}" ]]; then
     source "${HOME}/.iterm2_shell_integration.${shell}"
 fi
 
-#loadflags "mysql@5.7"
-loadflags "mysql-client@5.7"
-loadflags "openssl@1.1"
+export CFLAGS="-Wno-error=varargs -I$(brew --prefix)/include"
+export CPPFLAGS="-I/usr/local/opt/mysql-client/include -I/usr/local/opt/openssl@1.1/include ${CPPFLAGS}"
+export LDFLAGS="-L$(brew --prefix)/lib -L/usr/local/opt/mysql-client/lib ${LDFLAGS}"
+export PKG_CONFIG_PATH="/usr/local/opt/mysql-client/lib/pkgconfig:$PKG_CONFIG_PATH"
