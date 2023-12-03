@@ -1,0 +1,4 @@
+{
+    "hello": "world",
+    "these_hosts": ["foo", "bar"]
+}
