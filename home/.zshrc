@@ -69,7 +69,7 @@ CASE_SENSITIVE="true"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git python dirhistory)
+plugins=(dirhistory)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -139,9 +139,26 @@ export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 source $HOME/scripts/src/load.sh
 
+export VW_HOME=$HOME/dev/venvs
+source $HOME/dev/yavw/vw.sh
 source $HOME/bin/dbutils
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
-eval "$(pyenv virtualenv-init -)"
+
+alias myip="curl http://ipecho.net/plain; echo"
+
+function sshkx() {
+    if [[ "$1" = "" ]]; then
+        echo Please provide the start of the host name or IP
+    else
+        rm -f ~/.ssh/known_hosts.old
+        mv ~/.ssh/known_hosts ~/.ssh/known_hosts.old
+        grep -v "^${1}" ~/.ssh/known_hosts.old > ~/.ssh/known_hosts
+    fi
+}
+
+echo curl -s "wttr.in/{Honolulu,Seoul}?format=3"
+export HOMEBREW_GITHUB_API_TOKEN=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
+vw home

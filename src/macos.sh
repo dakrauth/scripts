@@ -10,7 +10,7 @@ fi
 export LSCOLORS="GxFxdadxDxegedabagAcad"
 
 export SDKROOT="$(xcrun --show-sdk-path)"
-export MACOSX_DEPLOYMENT_TARGET="$(sw_vers -productVersion | cut -c -5)"    # e.g.: 10.14
+export MACOSX_DEPLOYMENT_TARGET="$(sw_vers -productVersion)"    # e.g.: 10.14
 
 export PICKER_DB_PORT=3306
 #export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
@@ -107,7 +107,7 @@ function google() {
 alias real='command'
 alias dsclean='find . -name ".DS_Store" -exec rm {} \;'
 alias jsc='/System/Library/Frameworks/JavaScriptCore.framework/Versions/A/Resources/jsc'
-alias flushdns='sudo killall -HUP mDNSResponder'
+alias flushdns='sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder'
 alias chrome='open -a /Applications/Google\ Chrome.app'
 alias safari='open -a /Applications/Safari.app'
 alias camerareset='sudo killall VDCAssistant'

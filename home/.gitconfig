@@ -1,33 +1,42 @@
 [alias]
-    hist = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
+    hist = log --pretty=tformat:'%h %ad | %s%d [%an]' --graph --date=short
     alias = config --get-regexp alias
     br = branch
     brv = "!f() { git branch --sort=-creatordate --color=always --format='%(color:reset)%(creatordate:short) %(color:bold white)%(align:2,right)%(upstream:trackshort)%(end)%(color:nobold) %(align:50,left)%(color:yellow)%(refname:short) %(color:red)[%(authorname)] %(end) %(color:reset)%(contents:subject)'; }; f"
     brvr = "!f() { git branch -r --sort=-creatordate --color=always --format='%(color:reset)%(creatordate:short) %(color:bold white)%(align:2,right)%(upstream:trackshort)%(end)%(color:nobold) %(align:60,left)%(color:yellow)%(refname:short) %(color:red)[%(authorname)] %(end) %(color:reset)%(contents:subject)'; }; f"
-    changed = diff --name-only --cached --diff-filter=ACM
+    changed = diff --name-only --diff-filter=ACMRTUXB
     ci = commit
     cia = commit -a
     ciam = commit -a -m
     co = checkout
     discard = checkout --
     dump = cat-file -p
-    ll = log --abbrev-commit --graph --pretty=format:'%Cred%h%Creset %s %C(bold magenta)<%an>%Creset %C(green)%cr%Creset%C(yellow)%d%Creset'
+    gekprofile = config user.email dkrauth@govexec.com
+    history = log -p --
+    last = log -1 HEAD
+    ll = log --abbrev-commit --graph --pretty=tformat:'%Cred%h%Creset %s %C(bold magenta)<%an>%Creset %C(green)%cr%Creset%C(yellow)%d%Creset'
     ls = log --abbrev-commit --graph --decorate --pretty=oneline
+    lg = log --abbrev-commit --graph --pretty=tformat:'%Cred%h%Creset %s %C(bold magenta)<%an>%Creset %C(yellow)%d%Creset'
     mergeff = merge --ff-only
     pullf = pull --ff-only
     pullr = pull --rebase=true
     pushf = push --force-with-lease
     pushup = push -u origin
     refresh = remote update origin --prune
+    root = "!f() { cd "$(git rev-parse --show-toplevel)"; pwd; }; f"
     showbrs = for-each-ref --color --sort=authorname --ignore-case --format="%(authorname)%20%(authoremail):%20%(color:yellow)%(refname:lstrip=3)%(color:reset)%20@%20%(objectname:short)%20[%(authordate:iso)%20-%20%(color:red)%(authordate:relative)%(color:reset)]%20%(subject)" refs/remotes
     st = status
+    touched = "!f() { git --no-pager diff --name-only | grep "\\.py$"; }; f"
+    cached = "!f() { git --no-pager diff --cached --name-only | grep "\\.py$"; }; f"
     type = cat-file -t
     undo = reset --soft HEAD~1
-    unstage = reset HEAD --
+    unstage = restore --staged
     # Show how your git local branch and its upstream diverge
     # See https://twitter.com/nedbat/status/1017432899967160321?s=11
     y = log --oneline --graph HEAD @{u} $(git merge-base HEAD @{u})^!
 [branch "master"]
+    mergeoptions = --ff-only
+[branch "main"]
     mergeoptions = --ff-only
 [branch "develop"]
     mergeoptions = --ff-only
@@ -50,13 +59,14 @@
     branch = magenta bold
     unmerged = red yellow bold
 [commit]
-    template = /Users/dkrauth/.stCommitMsg
+	template = /Users/dkrauth/.stCommitMsg
 [core]
     autocrlf = input
 	excludesfile = /Users/david/.gitignore_global
     pager = bat
+    #pager = cat
 [credential]
-	helper = osxkeychain
+    helper = osxkeychain
 [diff]
     tool = Kaleidoscope
 [difftool]
@@ -64,7 +74,7 @@
 [difftool "Kaleidoscope"]
     cmd = ksdiff --partial-changeset --relative-path \"$MERGED\" -- \"$LOCAL\" \"$REMOTE\"
 [difftool "sourcetree"]
-	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	cmd = /usr/local/bin/ksdiff -w \"$LOCAL\" \"$REMOTE\"
 	path = 
 [merge]
     keepBackup = false
@@ -76,7 +86,7 @@
     cmd = ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
     trustexitcode = true
 [mergetool "sourcetree"]
-	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	cmd = /usr/local/bin/ksdiff --merge --output \"$MERGED\" --base \"$BASE\" -- \"$LOCAL\" --snapshot \"$REMOTE\" --snapshot
 	trustExitCode = true
 [pager]
     branch = false
@@ -85,10 +95,11 @@
 [push]
     # Push current branch (and ONLY current branch) even if you've never pushed it before.
     default = current
+	autoSetupRemote = true
 [rebase]
     autosquash = true
 [user]
-    name = David Krauth
-    email = dakrauth@gmail.com
+	name = David Krauth
+	email = dakrauth@gmail.com
 [init]
 	defaultBranch = main

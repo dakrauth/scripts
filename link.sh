@@ -17,9 +17,11 @@ for src in $(find $homeDir); do
         echo dest = $dest
         if [[ -d "$src" ]]; then
             echo mkdir -pv "$dest"
+            mkdir -pv "$dest"
         else
             if [[ $(basename $src) != .DS_Store ]]; then
                 echo ln -s $src $dest
+                ln -s $src $dest
             fi
         fi
     fi

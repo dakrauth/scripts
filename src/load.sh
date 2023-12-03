@@ -8,7 +8,7 @@ fi
 
 echo root=$root
 
-for script in common python vw; do
+for script in common python; do
     [[ $ECHO_ON = "1" ]] && echo Loading $root/${script}.sh
     source $root/${script}.sh
 done

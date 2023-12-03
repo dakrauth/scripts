@@ -2,7 +2,6 @@ shell=${SHELL##*/}
 
 export PIP_REQUIRE_VIRTUALENV=true
 export PYTHONWARNINGS="ignore:DEPRECATION::pip._internal.cli.base_command"
-export VW_HOME=$HOME/dev/venvs
 
 function __pyhelp() {
     if [[ "$shell" == "zsh" ]]; then

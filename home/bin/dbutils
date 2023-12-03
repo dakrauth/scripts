@@ -1,6 +1,6 @@
 #!/bin/bash
 DBBAK_DIR=~/dev/bak
-DBBAK_NAMES=(travel dakrauth bdp)
+DBBAK_NAMES=(travel dakrauth bdp ff picker)
 DBBAK_PORT=13306
 DBBAK_HOST=0.0.0.0
 
@@ -10,61 +10,62 @@ DBBAK_HOST=0.0.0.0
 mkdir -p ${DBBAK_DIR}
 
 function dbdump() {
-    local items
-    if [ ! -n "$1" ]; then
+    local items="$*"
+    if [ -z "$1" ]; then
         items=("${DBBAK_NAMES[@]}")
         echo Dumping default DBs...
-        echo $DBBAK_NAMES
     else
-        items="$@"
         echo Dumping selected DBs...
-        echo "$@"
     fi
+    echo "${items[@]}"
 
     for name in "${items[@]}"; do
         local SQLFILE=${name}.sql
         local OUTFILE=${SQLFILE}.gz
-        local WHEN=`date "+%Y%m%d-%H%M"`
+        local WHEN=$(date "+%Y-%m-%d-%H-%M")
         local WHERE="${DBBAK_DIR}/${name}"
-        echo ${WHEN} Dumping ${name} to ${WHERE} ...
+        echo "${WHEN} Dumping ${name} to ${WHERE} ..."
 
-        mkdir -p ${WHERE}
-        pushd ${WHERE} > /dev/null
-        rm -f ${SQLFILE} ${OUTFILE}
-        if [ ${name} = "travel" ]; then
-            ssh dak "mysqldump --default-character-set=utf8mb4 ${name} | gzip" > ${OUTFILE}
-        elif [ ${name} = "bdp" ]; then
-            ssh david@ballroomdanceportland.com "mysqldump ${name} | gzip" > ${OUTFILE}
+        mkdir -p "${WHERE}"
+        pushd "${WHERE}" > /dev/null || exit
+        rm -f "${SQLFILE}" "${OUTFILE}"
+        if [ "${name}" = "travel" ]; then
+            ssh dak "mysqldump --default-character-set=utf8mb4 travel | gzip" > "${OUTFILE}"
+        elif [ "${name}" = "picker" ]; then
+            ssh dak "mysqldump --default-character-set=utf8mb4 picker | gzip" > "${OUTFILE}"
+        elif [ "${name}" = "ff" ]; then
+            ssh dak "mysqldump --default-character-set=utf8mb4 ff | gzip" > "${OUTFILE}"
+        elif [ "${name}" = "bdp" ]; then
+            ssh david@ballroomdanceportland.com "mysqldump bdp | gzip" > "${OUTFILE}"
         else
-            ssh dak "mysqldump ${name} | gzip" > ${OUTFILE}
+            ssh dak "mysqldump ${name} | gzip" > "${OUTFILE}"
         fi
 
-        cp ${OUTFILE} ${WHEN}.${OUTFILE}
-        echo Unzipping $name ...
-        gunzip ${OUTFILE}
-        popd  > /dev/null
+        cp "${OUTFILE}" "${WHEN}.${OUTFILE}"
+        echo "Unzipping $name ..."
+        gunzip "${OUTFILE}"
+        popd > /dev/null || exit
         echo Done.
     done
 }
 
 function dbload() {
-    local items=""
-    if [ ! -n "$1" ]; then
-        items=$DBBAK_NAMES
+    local names="$*"
+    if [ -z "$1" ]; then
+        names=("${DBBAK_NAMES[@]}")
         echo Loading default DBs...
-        echo $DBBAK_NAMES
     else
-        items="$@"
-        echo Loading selected DBs "$@" ...
+        echo Loading selected DBs...
     fi
+    echo "${names[@]}"
 
-    for name in $items; do
+    for name in "${names[@]}"; do
         local sqlfile="${DBBAK_DIR}/${name}/${name}.sql"
         if [ ! -e "$sqlfile" ]; then
-            dbdump $name
+            dbdump "$name"
         fi
-        echo Loading $name "$DBBAK_HOST":"$DBBAK_PORT" ...
-        mysql -P $DBBAK_PORT -h $DBBAK_HOST $name < "$sqlfile"
+        echo "Loading $name ${DBBAK_HOST}:${DBBAK_PORT} ..."
+        mysql -P "$DBBAK_PORT" -h "$DBBAK_HOST" "$name" < "$sqlfile"
         echo "Done ($?)."
     done
 
