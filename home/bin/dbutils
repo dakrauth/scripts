@@ -1,6 +1,6 @@
-#!/bin/bash
+#!usr/bin/env bash
 DBBAK_DIR=~/dev/bak
-DBBAK_NAMES=(travel dakrauth bdp ff picker)
+DBBAK_NAMES=(travel bdp ff)
 DBBAK_PORT=13306
 DBBAK_HOST=0.0.0.0
 

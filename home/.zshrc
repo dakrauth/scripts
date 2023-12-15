@@ -142,6 +142,7 @@ source $HOME/scripts/src/load.sh
 export VW_HOME=$HOME/dev/venvs
 source $HOME/dev/yavw/vw.sh
 source $HOME/bin/dbutils
+source $HOME/dev/freetravelogue.com/aliases.sh
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm

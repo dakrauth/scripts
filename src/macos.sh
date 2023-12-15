@@ -1,12 +1,4 @@
 # See README.md
-shell=${SHELL##*/}
-if [[ "$shell" = "bash" ]]; then
-    root="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd -P )"
-else
-    #root="${(%):-%x}"
-    root=$( cd "$( dirname "${(%):-%x}" )" 2>&1 && pwd -P )
-fi
-
 export LSCOLORS="GxFxdadxDxegedabagAcad"
 
 export SDKROOT="$(xcrun --show-sdk-path)"

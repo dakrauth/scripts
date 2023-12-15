@@ -1,29 +1,26 @@
-shell=${SHELL##*/}
-if [[ "$shell" = "bash" ]]; then
-    root="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd -P )"
-else
-    #root="${(%):-%x}"
-    root=$( cd "$( dirname "${(%):-%x}" )" 2>&1 && pwd -P )
+export SCRIPTS_SRC="${HOME}/scripts/src"
+
+if [[ -n "$BASH_VERSINFO" ]]; then
+    export CURR_SHELL="bash"
+fi
+if [[ -n "$ZSH_VERSION" ]]; then
+    export CURR_SHELL="zsh"
 fi
 
-echo root=$root
-
 for script in common python; do
-    [[ $ECHO_ON = "1" ]] && echo Loading $root/${script}.sh
-    source $root/${script}.sh
+    [[ $ECHO_ON = "1" ]] && echo Loading $HOME/${script}.sh
+    source "$SCRIPTS_SRC/${script}.sh"
 done
 
 if [ $PLATFORM = "Darwin" ]; then
-    [[ $ECHO_ON = "1" ]] && echo Loading $root/macos.sh
-    source $root/macos.sh
+    [[ $ECHO_ON = "1" ]] && echo Loading "$SCRIPTS_SRC/macos.sh"
+    source "$SCRIPTS_SRC/macos.sh"
 elif [ $PLATFORM = "Linux" ]; then
-    [[ $ECHO_ON = "1" ]] && echo Loading $root/linux.sh
-    source $root/linux.sh
+    [[ $ECHO_ON = "1" ]] && echo Loading $HOME/linux.sh
+    source "$SCRIPTS_SRC/linux.sh"
 fi
 
-for rc in .atlrc .privaterc; do
-    if [ -e ~/$rc ]; then
-        [[ $ECHO_ON = "1" ]] && echo Loading $rc
-        source ~/$rc
-    fi
-done
+if [ -e ~/.privaterc ]; then
+    [[ $ECHO_ON = "1" ]] && echo Loading .privaterc
+    source ~/.privaterc
+fi
