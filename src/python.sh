@@ -3,6 +3,26 @@ shell=${SHELL##*/}
 export PIP_REQUIRE_VIRTUALENV=true
 export PYTHONWARNINGS="ignore:DEPRECATION::pip._internal.cli.base_command"
 
+function __pypub() {
+    dist=${1:-dist}
+    echo "dist dir = ${dist}"
+
+    python -m pip --require-venv -U build twine
+    python -m build --outdir "${dist}"
+    echo About to deploy:
+    for f in "${dist}"/*; do
+        echo  "    ${f}"
+    done
+
+    read "inp?Deploy [Y]? "
+    if [[ "${inp}" == "Y" ]]; then
+        echo Deploying!
+        echo twine upload "${dist}"/*
+    else
+        echo Deployment canceled
+    fi
+}
+
 function __pyhelp() {
     if [[ "$shell" == "zsh" ]]; then
         alias | grep "^py\." | awk -F= '{print $1}'
@@ -50,6 +70,7 @@ alias py.jt='python -m json.tool'
 alias py.help='__pyhelp'
 alias py.where='__pywhere'
 alias py.clean='__pyclean'
+alias py.pub='__pypub'
 
 function runserver() {
     if [ -z "$1" ]; then

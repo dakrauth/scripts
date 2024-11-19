@@ -11,7 +11,6 @@
     co = checkout
     discard = checkout --
     dump = cat-file -p
-    gekprofile = config user.email dkrauth@govexec.com
     history = log -p --
     last = log -1 HEAD
     ll = log --abbrev-commit --graph --pretty=tformat:'%Cred%h%Creset %s %C(bold magenta)<%an>%Creset %C(green)%cr%Creset%C(yellow)%d%Creset'
@@ -58,8 +57,6 @@
     untracked = cyan bold
     branch = magenta bold
     unmerged = red yellow bold
-[commit]
-	template = /Users/dkrauth/.stCommitMsg
 [core]
     autocrlf = input
 	excludesfile = /Users/david/.gitignore_global
@@ -103,3 +100,5 @@
 	email = dakrauth@gmail.com
 [init]
 	defaultBranch = main
+[safe]
+	bareRepository = explicit

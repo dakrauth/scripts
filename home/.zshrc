@@ -142,7 +142,8 @@ source $HOME/scripts/src/load.sh
 export VW_HOME=$HOME/dev/venvs
 source $HOME/dev/yavw/vw.sh
 source $HOME/bin/dbutils
-source $HOME/dev/freetravelogue.com/aliases.sh
+source $HOME/dev/www/nerdfog.com/aliases.sh
+source $HOME/.secrets
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
@@ -161,5 +162,14 @@ function sshkx() {
 }
 
 echo curl -s "wttr.in/{Honolulu,Seoul}?format=3"
-export HOMEBREW_GITHUB_API_TOKEN=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
 vw home
+
+favtz() {
+    # Honolulu Paris NYC
+    ~/dev/when/.dev/venv/bin/when \
+    --source 5856195 \
+    --source 2988507 \
+    --source 5128581
+}
+
+favtz
