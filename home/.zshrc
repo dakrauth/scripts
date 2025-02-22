@@ -140,6 +140,7 @@ eval "$(pyenv init -)"
 source $HOME/scripts/src/load.sh
 
 export VW_HOME=$HOME/dev/venvs
+export NF_HOME=/www/nerdfog.com
 source $HOME/dev/yavw/vw.sh
 source $HOME/bin/dbutils
 source $HOME/dev/www/nerdfog.com/aliases.sh
@@ -163,6 +164,10 @@ function sshkx() {
 
 echo curl -s "wttr.in/{Honolulu,Seoul}?format=3"
 vw home
+alias vnd="cd ~/dev/vnd"
+alias www="cd ~/dev/www"
+alias nf="cd ~/dev/www/nerdfog.com"
+
 
 favtz() {
     # Honolulu Paris NYC

@@ -50,13 +50,6 @@ function manpdf() {
     man -t "$1"  | open -f -a  /Applications/Preview.app/
 }
 
-function itunesinfo() {
-    local artist=`osascript -e 'tell application "iTunes" to artist of current track as string'`
-    local track=`osascript -e 'tell application "iTunes" to name of current track as string'`
-    local album=`osascript -e 'tell application "iTunes" to album of current track as string'`
-    echo "$artist: $track [$album]"
-}
-
 function mkdmg() {
     local source="$1"
     local dmg_name="$2"
@@ -104,6 +97,12 @@ alias chrome='open -a /Applications/Google\ Chrome.app'
 alias safari='open -a /Applications/Safari.app'
 alias camerareset='sudo killall VDCAssistant'
 alias sqliteui='/Applications/DB\ Browser\ for\ SQLite.app/Contents/MacOS/DB\ Browser\ for\ SQLite'
+alias recipes='open https://dakrauth.com/recipes/'
+alias snippets='open https://dakrauth.com/snippets/'
+
+alias brew.deps='brew leaves | xargs brew deps --formula --for-each | sed "s/^.*:/$(tput setaf 4)&$(tput sgr0)/"'
+alias brew.uses='brew uses --recursive --installed pango'
+alias brew.xhelp='open https://dakrauth.com/snippets/da936f5c-homebrew/'
 
 if [[ -f "${HOME}/.iterm2_shell_integration.${shell}" ]]; then
     [[ $ECHO_ON = "1" ]] && echo Loading ~/.iterm2_shell_integration.${shell}

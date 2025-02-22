@@ -100,5 +100,3 @@
 	email = dakrauth@gmail.com
 [init]
 	defaultBranch = main
-[safe]
-	bareRepository = explicit
