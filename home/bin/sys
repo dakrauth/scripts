@@ -1,0 +1,33 @@
+#!/usr/bin/env python
+import subprocess
+versions = {
+    "15": "macOS Sequoia",
+    "14": "macOS Sonoma",
+    "13": "macOS Ventura",
+    "12": "macOS Monterey",
+    "11": "macOS Big Sur",
+    "10.15": "macOS Catalina",
+    "10.14": "macOS Mojave",
+    "10.13": "macOS High Sierra",
+    "10.12": "macOS Sierra",
+    "10.11": "OS X El Capitan",
+    "10.10": "OS X Yosemite",
+    "10.9": "OS X Mavericks",
+    "10.8": "OS X Mountain Lion",
+    "10.7": "OS X Lion",
+    "10.6": "Mac OS X Snow Leopard",
+    "10.5": "Mac OS X Leopard",
+    "10.4": "Mac OS X Tiger",
+    "10.3": "Mac OS X Panther",
+    "10.2": "Mac OS X Jaguar",
+    "10.1": "Mac OS X Puma",
+    "10.0": "Mac OS X Cheetah",
+}
+
+version = subprocess.getoutput("sw_vers -productVersion")
+v = version.rsplit(".", 1)[0]
+if not v.startswith("10."):
+    v = v.split(".")[0]
+name = versions.get(v, "")
+print(f"{version} {name}")
+

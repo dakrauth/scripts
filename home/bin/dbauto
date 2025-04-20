@@ -17,7 +17,13 @@ def clean(dirname, delete=True):
     for fn in sorted(p.glob("*.gz")):
         ts, _, suffix = fn.name.partition(".")
         yr, mo, *_ = [int(i) for i in ts.split("-")]
-        months.setdefault((yr, mo), []).append(File(fn))
+
+        f = File(fn)
+        if f.path.stat().st_size == 0:
+            f.path.unlink()
+            continue
+
+        months.setdefault((yr, mo), []).append(f)
 
     removed = 0
     size = 0

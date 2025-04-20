@@ -168,6 +168,9 @@ alias vnd="cd ~/dev/vnd"
 alias www="cd ~/dev/www"
 alias nf="cd ~/dev/www/nerdfog.com"
 
+function mvcode() {
+    mv "$1" ~/Documents/dev/code
+}
 
 favtz() {
     # Honolulu Paris NYC

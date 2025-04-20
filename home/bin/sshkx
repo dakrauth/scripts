@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+function sshkx() {
+    if [[ "$1" = "" ]]; then
+        echo Please provide the start of the host name or IP
+    else
+        rm -f ~/.ssh/known_hosts.old
+        mv ~/.ssh/known_hosts ~/.ssh/known_hosts.old
+        grep -v "^${1}" ~/.ssh/known_hosts.old > ~/.ssh/known_hosts
+    fi
+}
