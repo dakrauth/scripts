@@ -33,8 +33,6 @@ function dbdump() {
             ssh dak "mysqldump --default-character-set=utf8mb4 travel | gzip" > "${OUTFILE}"
         elif [ "${name}" = "picker" ]; then
             ssh dak "mysqldump --default-character-set=utf8mb4 picker | gzip" > "${OUTFILE}"
-        elif [ "${name}" = "ff" ]; then
-            ssh dak "mysqldump --default-character-set=utf8mb4 ff | gzip" > "${OUTFILE}"
         elif [ "${name}" = "bdp" ]; then
             ssh david@ballroomdanceportland.com "mysqldump bdp | gzip" > "${OUTFILE}"
         else

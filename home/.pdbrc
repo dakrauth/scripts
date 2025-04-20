@@ -5,6 +5,7 @@ alias ppl pp locals()
 alias ppo pp %1.__dict__
 alias pps ppo self
 alias ppv pp vars(%1)
+alias pr print(%1)
 
 # Next and list
 alias nl n;;l

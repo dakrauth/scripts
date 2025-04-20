@@ -5,6 +5,7 @@ Scripts, configurations, and setup for macOS and Linux
 
     cd ~
     git clone https://github.com/dakrauth/scripts
+    git clone git@github.com:powerline/fonts.git
     ./scripts/setup.sh
 
 Summary

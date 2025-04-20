@@ -99,14 +99,15 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 export EDITOR='/usr/local/bin/subl -w'
 
-alias zedit="subl ~/.zshrc"
-alias zload=". ~/.zshrc"
+alias z.ed="subl ~/.zshrc"
+alias z.ld=". ~/.zshrc"
 alias ll='ls -alFG'
 alias subl="/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl"
 
 unalias run-help 2>/dev/null
 autoload run-help
 alias help='run-help'
+alias ppath='echo -e ${PATH//:/\\n}'
 
 export BAT_THEME=OneHalfLight
 
@@ -131,7 +132,6 @@ gitfzf () {
                 xclip -r -selection clipboard" 
 }
 
-alias path='echo -e ${PATH//:/\\n}'
 
 export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
