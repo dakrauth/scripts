@@ -162,8 +162,7 @@ function sshkx() {
     fi
 }
 
-echo curl -s "wttr.in/{Honolulu,Seoul}?format=3"
-vw home
+echo curl -s "wttr.in/Poulsbo?format=3"
 alias vnd="cd ~/dev/vnd"
 alias www="cd ~/dev/www"
 alias nf="cd ~/dev/www/nerdfog.com"
@@ -181,3 +180,19 @@ favtz() {
 }
 
 favtz
+
+cd() {
+    builtin cd "$@" || return  # Use the built-in cd command and handle errors
+    for dn in .venv venv; do
+        if [ -d "${dn}" ]; then
+            if [ -f "${dn}/bin/activate" ]; then
+                echo "Activating virtual environment in $(pwd)"
+                source "${dn}"/bin/activate
+            else
+                echo "${dn} directory found, but no activate script exists."
+            fi
+        fi
+    done
+}
+
+cd .
