@@ -1,4 +1,4 @@
-export SCRIPTS_SRC="${HOME}/scripts/src"
+scripts_src="${HOME}/scripts/etc"
 
 if [[ -n "$BASH_VERSINFO" ]]; then
     export CURR_SHELL="bash"
@@ -8,16 +8,13 @@ if [[ -n "$ZSH_VERSION" ]]; then
 fi
 
 for script in common python; do
-    [[ $ECHO_ON = "1" ]] && echo Loading $HOME/${script}.sh
-    source "$SCRIPTS_SRC/${script}.sh"
+    source "$scripts_src/${script}.sh"
 done
 
 if [ $PLATFORM = "Darwin" ]; then
-    [[ $ECHO_ON = "1" ]] && echo Loading "$SCRIPTS_SRC/macos.sh"
-    source "$SCRIPTS_SRC/macos.sh"
+    source "$scripts_src/macos.sh"
 elif [ $PLATFORM = "Linux" ]; then
-    [[ $ECHO_ON = "1" ]] && echo Loading $HOME/linux.sh
-    source "$SCRIPTS_SRC/linux.sh"
+    source "$scripts_src/linux.sh"
 fi
 
 if [ -e ~/.privaterc ]; then

@@ -4,22 +4,43 @@ Scripts
 Scripts, configurations, and setup for macOS and Linux
 
     cd ~
-    git clone https://github.com/dakrauth/scripts
+    git clone git@github.com:dakrauth/scripts
     git clone git@github.com:powerline/fonts.git
-    ./scripts/setup.sh
+    ./scripts/etc/link.sh scripts/home
 
 Summary
 -------
 
-    ├── Brewfile      # a Homebrew Gem-like file for installation
-    ├── README.md     # your reading it now
-    ├── bash/         # contextual files to be sourced via dotfiles/bashrc
-    ├── bin/          # various executable scripts to be symlinked into $HOME/bin
-    ├── dotfiles/     # various config files to be symlinked into $HOME
-    ├── downloads.sh  # files to download that aren't available elsewise
-    └── setup.sh      # initial a new user account
+├── README.md
+├── etc
+│   ├── common.sh
+│   ├── link.sh
+│   ├── linux.sh
+│   ├── load.sh
+│   ├── macos.sh
+│   └── python.sh
+└── home
+    └── bin
+        ├── dbauto
+        ├── dbbak
+        ├── dbutils
+        ├── hexdump
+        ├── markdown
+        ├── pycat
+        ├── pypi
+        ├── qtest
+        ├── setup
+        │   ├── macos
+        │   │   ├── Brewfile
+        │   │   ├── apps.txt
+        │   │   ├── defaults.sh
+        │   │   ├── iTermProfiles.json
+        │   │   └── init.sh
+        │   └── setup.sh
+        ├── sshkx
+        ├── sys
+        └── wiki
 
-See `vw.help` for details about `vw`.
 
 Bash Quick Docs
 ===============
