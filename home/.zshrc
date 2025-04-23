@@ -137,7 +137,7 @@ export PYENV_ROOT="$HOME/.pyenv"
 export PATH="$PYENV_ROOT/bin:$PATH"
 
 eval "$(pyenv init -)"
-source $HOME/scripts/src/load.sh
+source $HOME/etc/load.sh
 
 export VW_HOME=$HOME/dev/venvs
 export NF_HOME=/www/nerdfog.com
