@@ -97,7 +97,6 @@ source $ZSH/oh-my-zsh.sh
 #
 # Example aliases
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-export EDITOR='/usr/local/bin/subl -w'
 
 alias z.ed="subl ~/.zshrc"
 alias z.ld=". ~/.zshrc"
@@ -132,16 +131,24 @@ gitfzf () {
                 xclip -r -selection clipboard" 
 }
 
+# The following lines have been added by Docker Desktop to enable Docker CLI completions.
+fpath=(/Users/david/.docker/completions $fpath)
+autoload -Uz compinit
+compinit
+# End of Docker CLI completions
+
+eval "$(/opt/homebrew/bin/brew shellenv)"
 
 export PYENV_ROOT="$HOME/.pyenv"
-export PATH="$PYENV_ROOT/bin:$PATH"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init - zsh)"
 
-eval "$(pyenv init -)"
-source $HOME/etc/load.sh
+
+source $HOME/scripts/etc/load.sh
 
 export VW_HOME=$HOME/dev/venvs
 export NF_HOME=/www/nerdfog.com
-source $HOME/dev/yavw/vw.sh
+source $HOME/dev/repos/yavw/vw.sh
 source $HOME/bin/dbutils
 source $HOME/dev/www/nerdfog.com/aliases.sh
 source $HOME/.secrets
@@ -150,17 +157,12 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-alias myip="curl http://ipecho.net/plain; echo"
 
-function sshkx() {
-    if [[ "$1" = "" ]]; then
-        echo Please provide the start of the host name or IP
-    else
-        rm -f ~/.ssh/known_hosts.old
-        mv ~/.ssh/known_hosts ~/.ssh/known_hosts.old
-        grep -v "^${1}" ~/.ssh/known_hosts.old > ~/.ssh/known_hosts
-    fi
-}
+# export EDITOR='/usr/local/bin/subl -w'
+# export EDITOR='subl -w'
+
+export EDITOR="/usr/local/bin/code -w"
+export VISUAL="$EDITOR"
 
 echo curl -s "wttr.in/Poulsbo?format=3"
 alias vnd="cd ~/dev/vnd"
@@ -173,26 +175,12 @@ function mvcode() {
 
 favtz() {
     # Honolulu Paris NYC
-    ~/dev/when/.dev/venv/bin/when \
-    --source 5856195 \
-    --source 2988507 \
-    --source 5128581
+    when \
+        --source 5856195 \
+        --source 2988507 \
+        --source 5128581
 }
 
-favtz
-
-cd() {
-    builtin cd "$@" || return  # Use the built-in cd command and handle errors
-    for dn in .venv venv; do
-        if [ -d "${dn}" ]; then
-            if [ -f "${dn}/bin/activate" ]; then
-                echo "Activating virtual environment in $(pwd)"
-                source "${dn}"/bin/activate
-            else
-                echo "${dn} directory found, but no activate script exists."
-            fi
-        fi
-    done
-}
 
 cd .
+favtz

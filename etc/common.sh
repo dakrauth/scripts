@@ -61,16 +61,14 @@ export PLATFORM=$(uname)
 export PATH="$HOME/bin:$HOME/.local/bin:/usr/local/sbin:$PATH"
 
 export COPYFILE_DISABLE=true
-export EDITOR="/usr/local/bin/subl -w"
-export VISUAL="$EDITOR"
 
-function loadflags() {
-    export CPPFLAGS="-I/usr/local/opt/$1/include ${CPPFLAGS}"
-    export LDFLAGS="-L/usr/local/opt/$1/lib ${LDFLAGS}"
-    if [ $PKG_CONFIG_PATH ]; then
-        export PKG_CONFIG_PATH="$PKG_CONFIG_PATH:/usr/local/opt/$1/lib/pkgconfig"
+function sshkx() {
+    if [[ "$1" = "" ]]; then
+        echo Please provide the start of the host name or IP
     else
-        export PKG_CONFIG_PATH="/usr/local/opt/$1/lib/pkgconfig"
+        rm -f ~/.ssh/known_hosts.old
+        mv ~/.ssh/known_hosts ~/.ssh/known_hosts.old
+        grep -v "^${1}" ~/.ssh/known_hosts.old > ~/.ssh/known_hosts
     fi
 }
 
@@ -224,6 +222,21 @@ function reload() {
     esac
 }
 
+
+cd() {
+    builtin cd "$@" || return  # Use the built-in cd command and handle errors
+    for dn in .venv venv; do
+        if [ -d "${dn}" ]; then
+            if [ -f "${dn}/bin/activate" ]; then
+                echo "Activating virtual environment in $(pwd)"
+                source "${dn}"/bin/activate
+            else
+                echo "${dn} directory found, but no activate script exists."
+            fi
+        fi
+    done
+}
+
 alias myip='curl http://ipecho.net/plain; echo'
 alias utcnow='python -c "import datetime;print(datetime.datetime.utcnow())"'
 alias ll='ls -alFG'
@@ -231,7 +244,6 @@ alias h='history'
 alias ..='cd ..'
 alias grep='egrep'
 alias ports='sudo lsof -i -P'
-alias path='echo -e ${PATH//:/\\n}'
 alias rsyncx='rsync -az -e ssh --progress'
 #alias getitall='wget --mirror --convert-links'
 alias getitall='wget --mirror --convert-links --adjust-extension --page-requisites --no-parent'

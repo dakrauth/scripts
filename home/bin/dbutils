@@ -1,5 +1,5 @@
-#!usr/bin/env bash
-DBBAK_DIR=~/dev/bak
+#!/usr/bin/env bash
+DBBAK_DIR=/Users/david/dev/bak
 DBBAK_NAMES=(travel picker)  # bdp
 DBBAK_PORT=13306
 DBBAK_HOST=0.0.0.0

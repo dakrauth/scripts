@@ -3,11 +3,7 @@ export LSCOLORS="GxFxdadxDxegedabagAcad"
 
 export SDKROOT="$(xcrun --show-sdk-path)"
 export MACOSX_DEPLOYMENT_TARGET="$(sw_vers -productVersion)"    # e.g.: 10.14
-
 export PICKER_DB_PORT=3306
-#export PATH="/usr/local/opt/mysql@5.7/bin:$PATH"
-export PATH="/usr/local/opt/mysql-client/bin:$PATH"
-
 export HOMEBREW_NO_AUTO_UPDATE=1
 export BAT_THEME=OneHalfLight
 
@@ -110,6 +106,12 @@ if [[ -f "${HOME}/.iterm2_shell_integration.${shell}" ]]; then
 fi
 
 export CFLAGS="-Wno-error=varargs -I$(brew --prefix)/include"
-export CPPFLAGS="-I/usr/local/opt/mysql-client/include -I/usr/local/opt/openssl@1.1/include ${CPPFLAGS}"
-export LDFLAGS="-L$(brew --prefix)/lib -L/usr/local/opt/mysql-client/lib ${LDFLAGS}"
-export PKG_CONFIG_PATH="/usr/local/opt/mysql-client/lib/pkgconfig:$PKG_CONFIG_PATH"
+# export CPPFLAGS="-I/opt/homebrew/opt/mysql-client/include -I/usr/local/opt/openssl@1.1/include ${CPPFLAGS}"
+
+export CPPFLAGS="-I/opt/homebrew/opt/mysql-client/include ${CPPFLAGS}"
+export LDFLAGS="-L$(brew --prefix)/lib -L/opt/homebrew/opt/mysql-client/lib ${LDFLAGS}"
+export PKG_CONFIG_PATH="/opt/homebrew/opt/mysql-client/lib/pkgconfig:$PKG_CONFIG_PATH"
+
+
+export PATH="/opt/homebrew/opt/mysql-client/bin:$PATH"
+
