@@ -168,6 +168,7 @@ echo curl -s "wttr.in/Poulsbo?format=3"
 alias vnd="cd ~/dev/vnd"
 alias www="cd ~/dev/www"
 alias nf="cd ~/dev/www/nerdfog.com"
+alias yt-dl-mp3='uvx --no-cache --from "yt-dlp[default]" yt-dlp --extract-audio --audio-format mp3'
 
 function mvcode() {
     mv "$1" ~/Documents/dev/code

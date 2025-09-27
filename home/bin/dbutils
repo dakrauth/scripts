@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+# set -x
 DBBAK_DIR=/Users/david/dev/bak
 DBBAK_NAMES=(travel picker)  # bdp
 DBBAK_PORT=13306
@@ -28,7 +29,11 @@ function dbdump() {
 
         mkdir -p "${WHERE}"
         pushd "${WHERE}" > /dev/null || exit
+
+        echo "Removing ${SQLFILE}, ${OUTFILE}"
         rm -f "${SQLFILE}" "${OUTFILE}"
+
+        echo "Downloading mysqldump to ${OUTFILE} ..."
         if [ "${name}" = "travel" ]; then
             ssh dak "mysqldump --default-character-set=utf8mb4 travel | gzip" > "${OUTFILE}"
         elif [ "${name}" = "picker" ]; then
@@ -38,10 +43,9 @@ function dbdump() {
         else
             ssh dak "mysqldump ${name} | gzip" > "${OUTFILE}"
         fi
+        echo "Download complete."
 
         cp "${OUTFILE}" "${WHEN}.${OUTFILE}"
-        echo "Unzipping $name ..."
-        gunzip "${OUTFILE}"
         popd > /dev/null || exit
         echo Done.
     done
