@@ -69,7 +69,10 @@ CASE_SENSITIVE="true"
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(dirhistory)
+plugins=(
+    dirhistory
+    gh
+)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -158,10 +161,9 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 
-# export EDITOR='/usr/local/bin/subl -w'
+# export EDITOR="/usr/local/bin/code -w"
 # export EDITOR='subl -w'
-
-export EDITOR="/usr/local/bin/code -w"
+export EDITOR='/Applications/Sublime\ Text.app/Contents/SharedSupport/bin/subl -w'
 export VISUAL="$EDITOR"
 
 echo curl -s "wttr.in/Poulsbo?format=3"

@@ -235,6 +235,9 @@ cd() {
             fi
         fi
     done
+    if [ -f ".source" ]; then
+        source .source
+    fi
 }
 
 alias myip='curl http://ipecho.net/plain; echo'
@@ -249,7 +252,7 @@ alias rsyncx='rsync -az -e ssh --progress'
 alias getitall='wget --mirror --convert-links --adjust-extension --page-requisites --no-parent'
 alias hgrep='history | grep'
 alias dux='du -ks ./* | sort -nr'
-alias dc='docker-compose'
+alias dc='docker compose'
 
 alias fzfp='fzf --ansi --preview="bat --color=always {}"'
 

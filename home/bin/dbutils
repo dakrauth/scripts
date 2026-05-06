@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # set -x
 DBBAK_DIR=/Users/david/dev/bak
-DBBAK_NAMES=(travel picker)  # bdp
+DBBAK_NAMES=(travel picker idope)  # bdp
 DBBAK_PORT=13306
 DBBAK_HOST=0.0.0.0
 
@@ -38,6 +38,8 @@ function dbdump() {
             ssh dak "mysqldump --default-character-set=utf8mb4 travel | gzip" > "${OUTFILE}"
         elif [ "${name}" = "picker" ]; then
             ssh dak "mysqldump --default-character-set=utf8mb4 picker | gzip" > "${OUTFILE}"
+        elif [ "${name}" = "idope" ]; then
+            ssh dak "mysqldump --default-character-set=utf8mb4 idope | gzip" > "${OUTFILE}"
         elif [ "${name}" = "bdp" ]; then
             ssh david@ballroomdanceportland.com "mysqldump bdp | gzip" > "${OUTFILE}"
         else
@@ -62,12 +64,12 @@ function dbload() {
     echo "${names[@]}"
 
     for name in "${names[@]}"; do
-        local sqlfile="${DBBAK_DIR}/${name}/${name}.sql"
+        local sqlfile="${DBBAK_DIR}/${name}/${name}.sql.gz"
         if [ ! -e "$sqlfile" ]; then
             dbdump "$name"
         fi
-        echo "Loading $name ${DBBAK_HOST}:${DBBAK_PORT} ..."
-        mysql -P "$DBBAK_PORT" -h "$DBBAK_HOST" "$name" < "$sqlfile"
+        echo "Loading $name ${DBBAK_HOST}:${DBBAK_PORT} "$sqlfile""
+        gunzip -c "$sqlfile" | mysql -u root -P "$DBBAK_PORT" -h "$DBBAK_HOST" "$name"
         echo "Done ($?)."
     done
 
